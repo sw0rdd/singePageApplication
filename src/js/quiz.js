@@ -7,6 +7,7 @@ import * as WebStorage from './modules/webstorage.js'
 
 // get dom elements
 
+
 // user form
 const submitNameButton = document.getElementById('submit_name')
 const userNameField = document.getElementById('user_name')
@@ -344,3 +345,4 @@ function showHighScores () {
     })
   }
 }
+
