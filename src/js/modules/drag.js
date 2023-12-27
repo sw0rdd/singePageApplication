@@ -13,7 +13,7 @@ export function makeDraggable(element) {
         document.onmousemove = elementDrag;
     }
 
-    console.log("Hello from drag.js!")
+
 
     function elementDrag(e) {
     e = e || window.event;

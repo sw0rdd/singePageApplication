@@ -1,0 +1,101 @@
+
+
+.chat_container {
+    width: 450px;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 2px 20px rgb(0, 0, 0, 0.3);
+    background-color: dodgerblue;
+}
+
+.chat_header h1 {
+    color: white;
+    padding: 15px;
+}
+
+.chat_body {
+    flex: 1;
+    color: white;
+    background-color: rgb(0, 0, 0, 0.7);
+    padding: 20px 30px;
+}
+
+.message {
+    background-color: dodgerblue;
+    padding: 10px;
+    color: white;
+    width: fit-content;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.user_message {
+    margin-left: auto;
+    background-color: white;
+    color: black;
+}
+
+.chat_footer form {
+    display: flex
+}
+
+.chat_footer form input {
+    flex: 1;
+    height: 40px;
+    border: none;
+    outline: none;
+    padding-left: 5px;
+    font-size: 16px;
+}
+
+.chat_footer form button, #submit_name {
+    width: 100px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    background-color: dodgerblue;
+    height: 40px;
+    color: white;
+    cursor: pointer;
+}
+
+.chat_footer form button:hover,
+#submit_name:hover {
+    background-color: rgb(0, 0, 255, 0.7);
+    transition: 0.2s ease;
+}
+
+
+.user_box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    background-color: dodgerblue;
+    border: 1px solid black;
+    border-radius: 20px;
+}
+
+.user_box form {
+    margin: 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.user_box label {
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+.user_box input[type="text"], 
+#answer_input input[type="text"]  {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+}
