@@ -13,8 +13,7 @@ body {
     background-position: center;
 }
 
-header,
-footer {
+header{
     background-color: black;
     color: white;
     font-size: 1.2em;
@@ -31,6 +30,91 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.footer_nav a {
+    color: #2b2616;
+    text-decoration: none;
+    padding: 5px;
+    display: block;
+    text-align: center;
+}
+
+
+.footer_nav li a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.5em;
+}
+
+
+.footer_nav ul {
+    clear: both;
+    list-style-type: none;
+    background-color: #e8be3f;
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+}
+
+.footer_nav a:hover {
+    background-color: #faf9f7;
+}
+
+.footer_nav li {
+    float: left;
+    padding: 5px;
+}
+
+
+footer {
+    display: block;
+    background-color: #e8be3f;
+}
+
+/**style the button*/
+
+.button {
+    background-color: #e8be3f;
+    border: none;
+    color: #2b2616;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.5em;
+    font-family: 'JetBrains Mono', monospace;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.button:hover {
+    background-color: #faf9f7;
+}
+
+
+.window {
+    position: absolute;
+    border: 1px solid #000;
+    background-color: #fff;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.title-bar {
+    background-color: #eee;
+    cursor: move;
+    padding: 5px;
+    text-align: center;
+}
+
+.close {
+    float: right;
+    cursor: pointer;
+}
+
+.content {
+    padding: 10px;
 }
 
 
