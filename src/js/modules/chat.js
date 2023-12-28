@@ -8,6 +8,61 @@ let userName = ''
 let webSocket
 
 
+function initWebSocket() {
+    if (!webSocket) {
+        webSocket = new WebSocket(serverAddress);
+        webSocket.onopen = function() {
+            console.log('WebSocket connection established');
+        };
+
+        webSocket.onerror = function(error) {
+            console.error('WebSocket error:', error);
+        };
+
+        webSocket.onclose = function(event) {
+            console.log('WebSocket connection closed:', event);
+        };
+
+        webSocket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            const { type, data: messageData, username } = data;
+        
+            if (type === 'message') {
+                // Process the received message
+                console.log(`Received message from ${username}: ${messageData}`);
+        
+
+        
+                document.querySelectorAll('.chat_body').forEach((chatBody) => {
+
+                    const messageBox = document.createElement('div');
+                    messageBox.classList.add('message_box');
+
+
+                    const chatMessage = document.createElement('span');
+                    chatMessage.classList.add('message');
+                    chatMessage.textContent = messageData;
+
+                    const userNameElement = document.createElement('span');
+                    userNameElement.classList.add('server_name');
+                    userNameElement.textContent = 'Server';
+
+                    messageBox.appendChild(userNameElement);
+                    messageBox.appendChild(chatMessage);
+
+
+                    chatBody.appendChild(messageBox.cloneNode(true));
+                })
+        
+        
+            } else if (type === 'heartbeat') {
+                // Ignore heartbeat messages
+                return;
+            }
+        };
+    }
+}
+
 
 
 export function initChat() {
@@ -88,135 +143,95 @@ export function NameSubmissionWindow (title) {
 
 
 export function createChatWindow(title) {
-    // <!-- <div class="chat_container">
-    // <div class="chat_header">
-    //     <h1>WebChat</h1>
-    // </div>
-
-    // <div class="chat_body">
-    //     <p class="message">Hello</p>
-    //     <p class="message user_message">Hi</p>
-    // </div>
-
-    // <div class="chat_footer">
-    //     <form action="">
-    //         <input id="chat_input" type="text" name="">
-    //         <button id="send_message_button">SEND</button>
-    //     </form>
-    // </div>
-    // </div> -->
     console.log('The name is ' + userName)
 
     const windowElement = document.createElement('div');
     windowElement.classList.add('window');
+    windowElement.classList.add('chat_window');
 
-    const titleBar = document.createElement('div');
-    titleBar.classList.add('title-bar');
-    titleBar.textContent = title;
+        const titleBar = document.createElement('div');
+        titleBar.classList.add('title-bar');
+        titleBar.textContent = title;
 
-    const closeButton = document.createElement('span');
-    closeButton.classList.add('close');
-    closeButton.textContent = 'X';
-    closeButton.addEventListener('click', () => {
-        windowElement.remove();
-    });
+        const closeButton = document.createElement('span');
+        closeButton.classList.add('close');
+        closeButton.textContent = 'X';
+        closeButton.addEventListener('click', () => {
+            windowElement.remove();
+        });
 
-    titleBar.appendChild(closeButton);
-    windowElement.appendChild(titleBar);
+        titleBar.appendChild(closeButton);
+        windowElement.appendChild(titleBar);
 
-    const chatContainer = document.createElement('div');
-    chatContainer.id = 'chat_box';
-    chatContainer.classList.add('chat_container');
+        const chatContainer = document.createElement('div');
+        chatContainer.classList.add('chat_container');
 
-    const chatHeader = document.createElement('div');
-    chatHeader.classList.add('chat_header');
-    const chatHeaderTitle = document.createElement('h1');
-    chatHeaderTitle.textContent = 'WebChat';
-    chatHeader.appendChild(chatHeaderTitle);
+        const chatHeader = document.createElement('div');
+        chatHeader.classList.add('chat_header');
+        const chatHeaderTitle = document.createElement('h1');
+        chatHeaderTitle.textContent = 'WebChat';
+        chatHeader.appendChild(chatHeaderTitle);
 
-    const chatBody = document.createElement('div');
-    chatBody.classList.add('chat_body');
+        const chatBody = document.createElement('div');
+        chatBody.classList.add('chat_body');
 
-    const chatFooter = document.createElement('div');
-    chatFooter.classList.add('chat_footer');
-    const chatForm = document.createElement('form');
-    const chatInput = document.createElement('input');
-    chatInput.type = 'text';
-    chatInput.name = '';
-    chatInput.id = 'chat_input';
-    const chatButton = document.createElement('button');
-    chatButton.textContent = 'SEND';
-    chatButton.id = 'send_message_button';
-    chatForm.appendChild(chatInput);
-    chatForm.appendChild(chatButton);
-    chatFooter.appendChild(chatForm);
+        const chatFooter = document.createElement('div');
+        chatFooter.classList.add('chat_footer');
+        const chatForm = document.createElement('form');
+        const chatInput = document.createElement('input');
+        chatInput.type = 'text';
+        chatInput.name = '';
+        chatInput.classList.add('chat_input');
+        const chatButton = document.createElement('button');
+        chatButton.textContent = 'SEND';
+        chatButton.classList.add('send_message_button');
+        chatForm.appendChild(chatInput);
+        chatForm.appendChild(chatButton);
+        chatFooter.appendChild(chatForm);
 
-    chatContainer.appendChild(chatHeader);
-    chatContainer.appendChild(chatBody);
-    chatContainer.appendChild(chatFooter);
+        chatContainer.appendChild(chatHeader);
+        chatContainer.appendChild(chatBody);
+        chatContainer.appendChild(chatFooter);
 
-    windowElement.appendChild(chatContainer);
+        windowElement.appendChild(chatContainer);
 
-    document.querySelector('main').appendChild(windowElement);
-    makeDraggable(windowElement);
-    startChat();
-}
+        document.querySelector('main').appendChild(windowElement);
+        makeDraggable(windowElement);
+        
+        initWebSocket();
 
-function startChat() {
-    webSocket = new WebSocket(serverAddress);
-    webSocket.onopen = function() {
-        console.log('WebSocket connection established');
-    };
-
-    webSocket.onerror = function(error) {
-        console.error('WebSocket error:', error);
-    };
-
-    webSocket.onclose = function(event) {
-        console.log('WebSocket connection closed:', event);
-    };
-
-    document.querySelector('#send_message_button').addEventListener('click', () => {
-        console.log('Send message button clicked')
-        const message = document.querySelector('#chat_input').value;
-        sendMessage(message);
-    });
-
-    document.querySelector('#chat_input').addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-            const message = document.querySelector('#chat_input').value;
+        const newChatButton = windowElement.querySelector('.send_message_button')
+        newChatButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            console.log('Send message button clicked')
+            const message = event.target.closest('.chat_window').querySelector('.chat_input').value;
             sendMessage(message);
-        }
-    });
 
-    webSocket.onmessage = function(event) {
-        const data = JSON.parse(event.data);
-        const { type, data: messageData, username } = data;
+            const messageBox = document.createElement('div');
+            messageBox.classList.add('message_box');
+            messageBox.classList.add('user_message_box');
 
-        if (type === 'message') {
-            // Process the received message
-            console.log(`Received message from ${username}: ${messageData}`);
+    
+            const userMessage = document.createElement('span');
+            userMessage.classList.add('message');
+            userMessage.classList.add('user_message');
+            userMessage.textContent = message;
 
-            const chatMessage = document.createElement('p');
-            chatMessage.classList.add('message');
-            chatMessage.textContent = messageData;
-            document.querySelector('.chat_body').appendChild(chatMessage);
+            const userNameElement = document.createElement('span');
+            userNameElement.classList.add('user_name');
+            userNameElement.textContent = userName;
 
-        } else if (type === 'heartbeat') {
-            // Process the heartbeat message
-            console.log('Heartbeat signal received');
+            messageBox.appendChild(userMessage);
+            messageBox.appendChild(userNameElement);
 
-            const heartbeatMessage = document.createElement('p');
-            heartbeatMessage.classList.add('message');
-            heartbeatMessage.textContent = 'Heartbeat signal received';
-            document.querySelector('.chat_body').appendChild(heartbeatMessage);
-        }
-    };
+
+            event.target.closest('.chat_window').querySelector('.chat_body').appendChild(messageBox);
+        })
+    }
 
 
 
 
-}
 
 
 
