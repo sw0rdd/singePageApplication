@@ -2,9 +2,10 @@ import { makeDraggable } from './drag.js'; // You'll create this file next
 
 
 const serverAddress = 'wss://courselab.lnu.se/message-app/socket';
+
 const apiKey = 'eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd';
 let userName = ''
-let WebSocket
+let webSocket
 
 
 
@@ -44,7 +45,7 @@ export function NameSubmissionWindow (title) {
     
     const userForm = document.createElement('form');
     const userLabel = document.createElement('label');
-    userLabel.htmlFor = 'user_name'; // Fix: Change 'for' to 'htmlFor'
+    userLabel.htmlFor = 'user_name'; 
     userLabel.textContent = 'Enter a nickname: ';
     const userInput = document.createElement('input');
     userInput.type = 'text';
@@ -77,6 +78,8 @@ export function NameSubmissionWindow (title) {
         }
     })
 
+    document.querySelector('#user_name').focus();
+
 }
 
 
@@ -97,7 +100,7 @@ export function createChatWindow(title) {
 
     // <div class="chat_footer">
     //     <form action="">
-    //         <input type="text" name="">
+    //         <input id="chat_input" type="text" name="">
     //         <button id="send_message_button">SEND</button>
     //     </form>
     // </div>
@@ -133,14 +136,6 @@ export function createChatWindow(title) {
 
     const chatBody = document.createElement('div');
     chatBody.classList.add('chat_body');
-    // const message1 = document.createElement('p');
-    // message1.classList.add('message');
-    // message1.textContent = 'Hello';
-    // const message2 = document.createElement('p');
-    // message2.classList.add('message', 'user_message');
-    // message2.textContent = 'Hi';
-    // chatBody.appendChild(message1);
-    // chatBody.appendChild(message2);
 
     const chatFooter = document.createElement('div');
     chatFooter.classList.add('chat_footer');
@@ -148,6 +143,7 @@ export function createChatWindow(title) {
     const chatInput = document.createElement('input');
     chatInput.type = 'text';
     chatInput.name = '';
+    chatInput.id = 'chat_input';
     const chatButton = document.createElement('button');
     chatButton.textContent = 'SEND';
     chatButton.id = 'send_message_button';
@@ -163,6 +159,63 @@ export function createChatWindow(title) {
 
     document.querySelector('main').appendChild(windowElement);
     makeDraggable(windowElement);
+    startChat();
+}
+
+function startChat() {
+    webSocket = new WebSocket(serverAddress);
+    webSocket.onopen = function() {
+        console.log('WebSocket connection established');
+    };
+
+    webSocket.onerror = function(error) {
+        console.error('WebSocket error:', error);
+    };
+
+    webSocket.onclose = function(event) {
+        console.log('WebSocket connection closed:', event);
+    };
+
+    document.querySelector('#send_message_button').addEventListener('click', () => {
+        console.log('Send message button clicked')
+        const message = document.querySelector('#chat_input').value;
+        sendMessage(message);
+    });
+
+    document.querySelector('#chat_input').addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            const message = document.querySelector('#chat_input').value;
+            sendMessage(message);
+        }
+    });
+
+    webSocket.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        const { type, data: messageData, username } = data;
+
+        if (type === 'message') {
+            // Process the received message
+            console.log(`Received message from ${username}: ${messageData}`);
+
+            const chatMessage = document.createElement('p');
+            chatMessage.classList.add('message');
+            chatMessage.textContent = messageData;
+            document.querySelector('.chat_body').appendChild(chatMessage);
+
+        } else if (type === 'heartbeat') {
+            // Process the heartbeat message
+            console.log('Heartbeat signal received');
+
+            const heartbeatMessage = document.createElement('p');
+            heartbeatMessage.classList.add('message');
+            heartbeatMessage.textContent = 'Heartbeat signal received';
+            document.querySelector('.chat_body').appendChild(heartbeatMessage);
+        }
+    };
+
+
+
+
 }
 
 
@@ -172,40 +225,12 @@ function sendMessage(message) {
     const data = {
         type: 'message',
         data: message,
-        username: 'MyFancyUsername',
+        username: userName,
         channel: 'my, not so secret, channel',
         key: apiKey
     };
-    socket.send(JSON.stringify(data));
+    webSocket.send(JSON.stringify(data));
+    console.log(`Sent message: ${message}`)
 }
 
-// Handle received messages from the server
-socket.onmessage = function(event) {
-    const data = JSON.parse(event.data);
-    const { type, data: messageData, username } = data;
 
-    if (type === 'message') {
-        // Process the received message
-        console.log(`Received message from ${username}: ${messageData}`);
-    }
-};
-
-// Ignore heartbeat messages from the server
-socket.onmessage = function(event) {
-    const data = JSON.parse(event.data);
-    const { type } = data;
-
-    if (type === 'heartbeat') {
-        return; // Ignore the heartbeat message
-    }
-};
-
-// Handle WebSocket connection errors
-socket.onerror = function(error) {
-    console.error('WebSocket error:', error);
-};
-
-// Handle WebSocket connection close
-socket.onclose = function(event) {
-    console.log('WebSocket connection closed:', event);
-};
