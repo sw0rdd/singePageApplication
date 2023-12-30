@@ -1,4 +1,4 @@
-import { makeDraggable } from './drag.js';
+import * as window from './window.js';
 
 
 const serverAddress = 'wss://courselab.lnu.se/message-app/socket';
@@ -80,18 +80,7 @@ export function NameSubmissionWindow (title) {
     windowElement.classList.add('window');
     windowElement.id = 'user_info';
 
-    const titleBar = document.createElement('div');
-    titleBar.classList.add('title-bar');
-    titleBar.textContent = title;
-
-    const closeButton = document.createElement('span');
-    closeButton.classList.add('close');
-    closeButton.textContent = 'X';
-    closeButton.addEventListener('click', () => {
-        windowElement.remove();
-    });
-
-    titleBar.appendChild(closeButton);
+    const titleBar = window.makeTitleBar(title, windowElement);
     windowElement.appendChild(titleBar);
 
     const userBox = document.createElement('div');
@@ -119,7 +108,7 @@ export function NameSubmissionWindow (title) {
     windowElement.appendChild(userBox);
 
     document.querySelector('main').appendChild(windowElement);
-    makeDraggable(windowElement);
+    window.makeDraggable(windowElement);
 
     document.querySelector('#submit_name').addEventListener('click', () => {
         userName = document.querySelector('#user_name').value;
@@ -149,18 +138,9 @@ export function createChatWindow(title) {
     windowElement.classList.add('window');
     windowElement.classList.add('chat_window');
 
-        const titleBar = document.createElement('div');
-        titleBar.classList.add('title-bar');
-        titleBar.textContent = title;
+    const titleBar = window.makeTitleBar(title, windowElement);
 
-        const closeButton = document.createElement('span');
-        closeButton.classList.add('close');
-        closeButton.textContent = 'X';
-        closeButton.addEventListener('click', () => {
-            windowElement.remove();
-        });
 
-        titleBar.appendChild(closeButton);
         windowElement.appendChild(titleBar);
 
         const chatContainer = document.createElement('div');
@@ -196,14 +176,13 @@ export function createChatWindow(title) {
         windowElement.appendChild(chatContainer);
 
         document.querySelector('main').appendChild(windowElement);
-        makeDraggable(windowElement);
+        window.makeDraggable(windowElement);
         
         initWebSocket();
 
         const newChatButton = windowElement.querySelector('.send_message_button')
         newChatButton.addEventListener('click', (event) => {
             event.preventDefault();
-            console.log('Send message button clicked')
             const message = event.target.closest('.chat_window').querySelector('.chat_input').value;
             sendMessage(message);
 
@@ -223,6 +202,9 @@ export function createChatWindow(title) {
 
             messageBox.appendChild(userMessage);
             messageBox.appendChild(userNameElement);
+
+            // clear message input
+            event.target.closest('.chat_window').querySelector('.chat_input').value = '';
 
 
             event.target.closest('.chat_window').querySelector('.chat_body').appendChild(messageBox);
@@ -245,7 +227,6 @@ function sendMessage(message) {
         key: apiKey
     };
     webSocket.send(JSON.stringify(data));
-    console.log(`Sent message: ${message}`)
 }
 
 

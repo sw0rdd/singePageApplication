@@ -101,11 +101,30 @@ footer {
     z-index: 10;
 }
 
+.close_button img {
+    border-radius: 50%;
+    width: 40px;
+}
+
+.title-bar .close_button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
 .title-bar {
     background-color: #eee;
     cursor: move;
     padding: 5px;
     text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title-bar-text {
+    flex-grow: 1; 
+    text-align: center; 
 }
 
 .close {

@@ -1,7 +1,7 @@
 'use strict'
 
 
-import { makeDraggable } from './modules/drag.js'; // You'll create this file next
+import * as window from './modules/window.js'; // You'll create this file next
 import * as chat from './modules/chat.js';
 import * as weatherApp from './modules/weather.js';
 

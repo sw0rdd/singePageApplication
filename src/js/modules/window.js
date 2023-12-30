@@ -52,3 +52,25 @@ export function makeDraggable(element) {
         document.onmousemove = null;
     }
 }
+
+export function makeTitleBar(title, windowElement) {
+
+        const titleBar = document.createElement('div');
+        titleBar.classList.add('title-bar');
+        
+        const titleText = document.createElement('span');
+        titleText.classList.add('title-bar-text');
+        titleText.textContent = title;
+        titleBar.appendChild(titleText);
+
+        const closeButton = document.createElement('button');
+        closeButton.classList.add('close_button');
+        closeButton.innerHTML = '<img src="img/close2.png" alt="close icon">';
+
+        closeButton.addEventListener('click', () => {
+            windowElement.remove();
+        });
+
+        titleBar.appendChild(closeButton);
+        return titleBar;
+}

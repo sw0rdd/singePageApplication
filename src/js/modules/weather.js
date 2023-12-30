@@ -1,4 +1,4 @@
-import { makeDraggable } from './drag.js';
+import * as window from './window.js';
 
 
 const apiKey = "c663b54cc99b1b7eb1fc579db6049404"
@@ -8,20 +8,8 @@ const apiURL = "https://api.openweathermap.org/data/2.5/weather?units=metric&q="
 export function createWeatherWindow(title) {
     const windowElement = document.createElement('div');
     windowElement.classList.add('window');
-    windowElement.classList.add('chat_window');
 
-        const titleBar = document.createElement('div');
-        titleBar.classList.add('title-bar');
-        titleBar.textContent = title;
-
-        const closeButton = document.createElement('span');
-        closeButton.classList.add('close');
-        closeButton.textContent = 'X';
-        closeButton.addEventListener('click', () => {
-            windowElement.remove();
-        });
-
-        titleBar.appendChild(closeButton);
+    const titleBar = window.makeTitleBar(title, windowElement);
         windowElement.appendChild(titleBar);
 
         const card = document.createElement('div');
@@ -107,7 +95,7 @@ export function createWeatherWindow(title) {
         card.appendChild(weather);
         windowElement.appendChild(card);
         
-        makeDraggable(windowElement);
+        window.makeDraggable(windowElement);
         document.querySelector('main').appendChild(windowElement); 
 
         button.addEventListener('click', () => {
