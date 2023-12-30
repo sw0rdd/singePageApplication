@@ -1,4 +1,4 @@
-import { makeDraggable } from './drag.js'; // You'll create this file next
+import { makeDraggable } from './drag.js';
 
 
 const serverAddress = 'wss://courselab.lnu.se/message-app/socket';
