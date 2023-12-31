@@ -3,7 +3,7 @@
 import * as window from './window.js';
 
 let submissionWindowShown = false;
-let gameGrid = '';
+let size = '';
 
 
 function createGridInputWindow(title) {
@@ -60,9 +60,9 @@ function createGridInputWindow(title) {
 
     document.querySelector('#submit_grid').addEventListener('click', (event) => {
         event.preventDefault();
-        gameGrid = document.querySelector('#game_grid').value;
+        size = parseInt(document.querySelector('#game_grid').value);
 
-        if (gameGrid === '') {
+        if (isNaN(size) || size % 2 !== 0 || size < 2 || size > 16) {
             alert('Please enter a valid game grid!');
             return;
         } else {
@@ -76,3 +76,39 @@ function createGridInputWindow(title) {
 }
 
 
+function createMemoryGameBoard(size) {
+    const totalCards = size * size;
+    const pairs = totalCards / 2;
+    let boardArray = [];
+
+    // Populate the board array with pairs
+    for (let i = 0; i < pairs; i++) {
+        boardArray.push(i, i);
+    }
+
+    // Shuffle the board array
+    shuffleArray(boardArray);
+
+    // Create HTML elements for the board
+    const boardElement = document.createElement('div');
+    boardElement.classList.add('memory-board');
+
+    boardArray.forEach(cardNumber => {
+        const cardElement = document.createElement('div');
+        cardElement.classList.add('memory-card');
+        cardElement.dataset.number = cardNumber;
+        // Add event listeners for click and keyboard
+        // ...
+
+        boardElement.appendChild(cardElement);
+    });
+
+    return boardElement;
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
