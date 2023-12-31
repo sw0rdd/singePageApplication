@@ -57,7 +57,11 @@ export class MemoryGame {
 
     }
 
-
+    /**
+     * create the game window
+     * add the cards to the window
+     * add event listeners to the cards
+     */
     CreateGame() {
 
         const windowElement = document.createElement('div');
@@ -85,14 +89,25 @@ export class MemoryGame {
         const game_header = document.createElement('div');
         game_header.classList.add('game_header');
 
+        const resetButton = document.createElement('button');
+        resetButton.classList.add('reset_button');
+        resetButton.textContent = 'Reset';
 
+        resetButton.addEventListener('click', () => {
+            this.reset('You lost!')
+        })
+
+        
         const playerLivesCount = document.createElement('h1');
         playerLivesCount.classList.add('player_lives_count');
         game_header.appendChild(playerLivesCount);
+        game_header.appendChild(resetButton);
 
         const section = document.createElement('section');
         this.section = section
 
+        // determin section layout depending on size
+        this.setGridLayout(this.size, section);
 
         const cardData = this.randomize();
 
@@ -133,7 +148,40 @@ export class MemoryGame {
 
     }
 
-    // check cards function
+    /**
+     * adjust the grid layout depending on the size
+     * @param {*} size 
+     * @param {HTMLElement} sectionElement 
+     */
+    setGridLayout(size, sectionElement) {
+        switch (size) {
+            case '4x4':
+                sectionElement.style.gridTemplateColumns = 'repeat(4, 8rem)';
+                sectionElement.style.gridTemplateRows = 'repeat(4, 8rem)';
+                break;
+            case '2x2':
+                sectionElement.style.gridTemplateColumns = 'repeat(2, 8rem)';
+                sectionElement.style.gridTemplateRows = 'repeat(2, 8rem)';
+                break;
+            case '2x4':
+                sectionElement.style.gridTemplateColumns = 'repeat(4, 8rem)';
+                sectionElement.style.gridTemplateRows = 'repeat(2, 8rem)';
+                break;
+            default:
+                throw new Error('Invalid game size');
+        }
+    }
+
+    /**
+     * check if the cards are the same
+     * if they are the same then remove them
+     * if they are not the same then flip them back
+     * if the player lost then reset the game
+     * if the player won then reset the game
+     * @param {event} e 
+     * @param {HTMLElement} clickedCard 
+     * @returns 
+     */
     checkCards(e, clickedCard) {
         clickedCard.classList.add('flipped');
 
@@ -170,6 +218,10 @@ export class MemoryGame {
         }, 1000)
     }
 
+    /**
+     * reset the game
+     * @param {string} message 
+     */
     reset(message) {
         const cardData = this.randomize();
         let faces = this.gameElement.querySelectorAll('.face');
@@ -191,22 +243,4 @@ export class MemoryGame {
         this.gameElement.querySelector('.player_lives_count').textContent = `Player Lives: ${this.playerLives}`;
         setTimeout(() => window.alert(message), 100)
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

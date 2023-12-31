@@ -31,10 +31,7 @@
     border-radius: 10px;
 }
 
-.chat_header button:hover {
-    background-color: rgb(0, 0, 0, 0.5);
-    transition: 0.2s ease;
-}
+
 
 .chat_header input[type="text"] {
     padding: 10px;
@@ -132,11 +129,16 @@
     cursor: pointer;
 }
 
+.chat_header button:hover {
+    background-color: rgb(0, 0, 0, 0.5);
+    transition: 0.2s ease;
+}
 .chat_footer form button:hover,
 #submit_name:hover {
     background-color: rgb(0, 0, 255, 0.7);
     transition: 0.2s ease;
 }
+
 
 
 .user_box {

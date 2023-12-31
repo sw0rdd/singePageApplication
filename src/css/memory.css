@@ -5,12 +5,13 @@
     /* box-sizing: border-box; */
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: green;
 }
 
 section {
     display: grid;
-    grid-template-columns: repeat(4, 8rem);
-    grid-template-rows: repeat(4, 8rem);
     gap: 1rem;
     perspective: 1000px;
 }
@@ -19,7 +20,34 @@ section {
     /* background-color: black; */
     border: solid 1px black;
     margin-bottom: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
 }
+
+.game_header h1 {
+    padding: 10px;
+}
+
+.game_header button {
+    margin-left: auto;
+    margin-right: 10px;
+    width: 100px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    background-color: dodgerblue;
+    height: 40px;
+    color: white;
+    cursor: pointer;
+}
+
+.game_header button:hover {
+    background-color: rgb(0, 0, 255, 0.7);
+    transition: 0.2s ease;
+}
+
 
 .memory_card {
     position: relative;
