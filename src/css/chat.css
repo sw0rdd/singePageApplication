@@ -9,9 +9,46 @@
     background-color: dodgerblue;
 }
 
-.chat_header h1 {
+.chat_header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    /* background-color: firebrick; */;
+}
+
+.chat_header button {
+    width: 100px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    background-color: rgb(0, 0, 0, 0.7);
+    height: 40px;
     color: white;
-    padding: 15px;
+    cursor: pointer;
+    /* margin: 10px; */
+    margin-bottom: 5px;
+    border-radius: 10px;
+}
+
+.chat_header button:hover {
+    background-color: rgb(0, 0, 0, 0.5);
+    transition: 0.2s ease;
+}
+
+.chat_header input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+    width: 80%;
+    margin-bottom: 5px;
+}
+
+.chat_header p {
+    color: white;
+    /* padding: 15px; */
+    font-size: 30px;
 }
 
 .chat_body {

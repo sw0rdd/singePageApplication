@@ -62,6 +62,7 @@
 .weather h1 {
     font-size: 80px;
     font-weight: 500;
+    margin: 5px;
 }
 
 .weather h2 {
@@ -72,16 +73,23 @@
 
 .details {
     display: flex;
-    align-items: center;
+    flex-direction: row;
     justify-content: space-between;
     padding: 0 20px;
     margin-top: 50px;
+    border: none;
 }
 
 .col {
     display: flex;
     align-items: center;
     text-align: left;
+    margin: 0px 10px;
+}
+
+.col p {
+    margin: 0;
+    margin-left: 10px;
 }
 
 .col img {

@@ -1,3 +1,11 @@
+let windowCount = 0;
+const offsetIncrement = 20;
+const maxWindowsBeforeBounce = 20
+
+/**
+ * make a window draggable
+ * @param {HTMLElement} element 
+ */
 export function makeDraggable(element) {
     let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
     const titleBar = element.querySelector('.title-bar');
@@ -7,6 +15,13 @@ export function makeDraggable(element) {
     function dragMouseDown(e) {
         e = e || window.event;
         e.preventDefault();
+
+        if (!element.dataset.initialDrag) {
+            element.dataset.initialLeft = element.style.left;
+            element.dataset.initialTop = element.style.top;
+            element.dataset.initialDrag = "true";
+        }
+
         pos3 = e.clientX;
         pos4 = e.clientY;
         document.onmouseup = closeDragElement;
@@ -48,29 +63,49 @@ export function makeDraggable(element) {
 }
 
     function closeDragElement() {
+        element.classList.remove('dragging');
         document.onmouseup = null;
         document.onmousemove = null;
     }
 }
 
-export function makeTitleBar(title, windowElement) {
+
+
+/**
+ * position a window
+ * prevents windows from going off screen
+ * prevents windows from overlapping
+ * @param {HTMLElement} windowElement
+ */
+export function positionWindow(windowElement) {
+    if (windowCount === 0) {
+        // do nothing, css style applies
+    } else {
+        // Adjust the window count for bounce back effect
+        let adjustedCount = windowCount % maxWindowsBeforeBounce;
+
+        // offset calculationss
+        const offsetX = (window.innerWidth - windowElement.offsetWidth) / 2 + offsetIncrement * adjustedCount;
+        const offsetY = (window.innerHeight - windowElement.offsetHeight) / 2 + offsetIncrement * adjustedCount;
+
+        windowElement.style.left = `${offsetX}px`;
+        windowElement.style.top = `${offsetY}px`;
+        windowElement.style.transform = 'none'; 
+    }
+
+    windowCount++;
+}
+
+
+export function makeTitleBar(title) {
 
         const titleBar = document.createElement('div');
         titleBar.classList.add('title-bar');
         
-        const titleText = document.createElement('span');
+        const titleText = document.createElement('h1');
         titleText.classList.add('title-bar-text');
         titleText.textContent = title;
         titleBar.appendChild(titleText);
 
-        const closeButton = document.createElement('button');
-        closeButton.classList.add('close_button');
-        closeButton.innerHTML = '<img src="img/close2.png" alt="close icon">';
-
-        closeButton.addEventListener('click', () => {
-            windowElement.remove();
-        });
-
-        titleBar.appendChild(closeButton);
         return titleBar;
 }
