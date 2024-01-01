@@ -111,7 +111,7 @@ export class MemoryGame {
 
         const cardData = this.randomize();
 
-        cardData.forEach((item) => {
+        cardData.forEach((item, index) => {
             const memory_card = document.createElement('div');
             const face = document.createElement('img');
             const back = document.createElement('img');
@@ -126,6 +126,8 @@ export class MemoryGame {
             back.src = './img/memory_game/question_mark.png';
             back.setAttribute('name', 'question_mark');
 
+            memory_card.setAttribute('tabindex', '0');
+
             // attach the card to the section
             section.appendChild(memory_card)
             memory_card.appendChild(face);
@@ -134,6 +136,13 @@ export class MemoryGame {
             memory_card.addEventListener('click', (e) => {
                 memory_card.classList.toggle('togglCard');
                 this.checkCards(e, memory_card)
+            })
+
+            memory_card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    memory_card.classList.toggle('togglCard');
+                    this.checkCards(e, memory_card)
+                }
             })
 
         })
@@ -145,6 +154,9 @@ export class MemoryGame {
         windowManager.makeDraggable(windowElement);
 
         playerLivesCount.textContent = `Player Lives: ${this.playerLives}`
+
+        this.focusFirstCard();
+        this.addKeyboardNavigation();
 
     }
 
@@ -242,5 +254,59 @@ export class MemoryGame {
         this.playerLives = 6;
         this.gameElement.querySelector('.player_lives_count').textContent = `Player Lives: ${this.playerLives}`;
         setTimeout(() => window.alert(message), 100)
+
+        this.focusFirstCard();
     }
+
+    focusFirstCard() {
+        const firstCard = this.gameElement.querySelector('.memory_card');
+        console.log(firstCard)
+        if (firstCard) {
+            firstCard.focus();
+        }
+    }
+
+
+    addKeyboardNavigation() {
+        const cards = this.gameElement.querySelectorAll('.memory_card');
+        const numCols = this.getNumCols();
+    
+        cards.forEach((card, index) => {
+            card.addEventListener('keydown', (e) => {
+                switch (e.key) {
+                    case 'ArrowRight':
+                        if ((index + 1) % numCols !== 0) { // Prevent moving to next row
+                            cards[index + 1]?.focus();
+                        }
+                        break;
+                    case 'ArrowLeft':
+                        if (index % numCols !== 0) { // Prevent moving to previous row
+                            cards[index - 1]?.focus();
+                        }
+                        break;
+                    case 'ArrowUp':
+                        cards[index - numCols]?.focus();
+                        break;
+                    case 'ArrowDown':
+                        cards[index + numCols]?.focus();
+                        break;
+                }
+            });
+        });
+    }
+    
+    getNumCols() {
+        switch (this.size) {
+            case '4x4':
+                return 4;
+            case '2x2':
+                return 2;
+            case '2x4':
+                return 4;
+            default:
+                return 4; 
+        }
+    }
+
+
 }
