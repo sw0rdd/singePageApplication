@@ -49,6 +49,8 @@ export function createGridInputWindow(title) {
 
     document.querySelector('main').appendChild(windowElement);
     window.makeDraggable(windowElement);
+    window.positionWindow(windowElement);
+
 
     document.querySelector('#submit_grid').addEventListener('click', (event) => {
         event.preventDefault();

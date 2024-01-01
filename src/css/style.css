@@ -99,8 +99,11 @@ footer {
     background-color: #fff;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
     z-index: 10;
-    /* margin: 20px; */
 }
+
+/* .window:focus {
+    outline: 100px solid #000;
+} */
 
 .close_button img {
     border-radius: 50%;

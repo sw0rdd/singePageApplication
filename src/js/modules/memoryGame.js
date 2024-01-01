@@ -159,6 +159,8 @@ export class MemoryGame {
         windowElement.appendChild(memory_game);
         document.querySelector('main').appendChild(windowElement);
         windowManager.makeDraggable(windowElement);
+        windowManager.positionWindow(windowElement);
+
 
         playerLivesCount.textContent = `Player Lives: ${this.playerLives}`
 

@@ -1,4 +1,5 @@
 let windowCount = 0;
+let highestZIndex = 100;
 const offsetIncrement = 20;
 const maxWindowsBeforeBounce = 20
 
@@ -15,6 +16,9 @@ export function makeDraggable(element) {
     function dragMouseDown(e) {
         e = e || window.event;
         e.preventDefault();
+
+        highestZIndex++;
+        element.style.zIndex = highestZIndex;
 
         if (!element.dataset.initialDrag) {
             element.dataset.initialLeft = element.style.left;
@@ -92,6 +96,9 @@ export function positionWindow(windowElement) {
         windowElement.style.top = `${offsetY}px`;
         windowElement.style.transform = 'none'; 
     }
+
+    highestZIndex++;
+    windowElement.style.zIndex = highestZIndex;
 
     windowCount++;
 }

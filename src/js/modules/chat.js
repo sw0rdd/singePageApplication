@@ -150,6 +150,7 @@ export function NameSubmissionWindow(title) {
 
     document.querySelector('#user_name').focus();
     submissionWindowShown = true;
+    window.positionWindow(windowElement);
 
 }
 
