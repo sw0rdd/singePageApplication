@@ -1,4 +1,4 @@
-import * as window from './window.js';
+import * as windowManager from './window.js';
 
 
 const serverAddress = 'wss://courselab.lnu.se/message-app/socket';
@@ -95,7 +95,7 @@ export function NameSubmissionWindow(title) {
     windowElement.classList.add('window');
     windowElement.id = 'user_info';
 
-    const titleBar = window.makeTitleBar(title, windowElement);
+    const titleBar = windowManager.makeTitleBar(title, windowElement);
 
     const closeButton = document.createElement('button');
     closeButton.classList.add('close_button');
@@ -134,7 +134,7 @@ export function NameSubmissionWindow(title) {
     windowElement.appendChild(userBox);
 
     document.querySelector('main').appendChild(windowElement);
-    window.makeDraggable(windowElement);
+    windowManager.makeDraggable(windowElement);
 
     document.querySelector('#submit_name').addEventListener('click', () => {
         userName = document.querySelector('#user_name').value;
@@ -150,7 +150,7 @@ export function NameSubmissionWindow(title) {
 
     document.querySelector('#user_name').focus();
     submissionWindowShown = true;
-    window.positionWindow(windowElement);
+    windowManager.positionWindow(windowElement);
 
 }
 
@@ -170,7 +170,7 @@ export function createChatWindow(title) {
     windowElement.classList.add('window');
     windowElement.classList.add('chat_window');
 
-    const titleBar = window.makeTitleBar(title);
+    const titleBar = windowManager.makeTitleBar(title);
 
     const closeButton = document.createElement('button');
     closeButton.classList.add('close_button');
@@ -230,8 +230,8 @@ export function createChatWindow(title) {
 
     windowElement.querySelector('.chat_input').focus();
 
-    window.makeDraggable(windowElement);
-    window.positionWindow(windowElement);
+    windowManager.makeDraggable(windowElement);
+    windowManager.positionWindow(windowElement);
 
     initWebSocket();
 

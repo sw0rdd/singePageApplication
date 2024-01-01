@@ -26,11 +26,16 @@ header{
 
 main {
     flex-grow: 1;
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 16%, rgba(0,212,255,1) 78%);
+}
+
+.footer_nav {
     display: flex;
-    flex-direction: column;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
 }
+
 
 .footer_nav a {
     color: #2b2616;
@@ -48,9 +53,11 @@ main {
 
 
 .footer_nav ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     clear: both;
     list-style-type: none;
-    background-color: #e8be3f;
     padding: 0px;
     margin: 0px;
     overflow: hidden;
@@ -68,7 +75,6 @@ main {
 
 footer {
     display: block;
-    background-color: #e8be3f;
 }
 
 /**style the button*/
@@ -148,15 +154,8 @@ footer {
 
 
 
-
-
-@media only screen and (max-width: 600px) {
-    body {
-        font-size: 16px;
-    }
-
-    header, footer {
-        font-size: 1em;
-        padding: 5px;
-    }
+.nav {
+    display: flex;
+    align-items: center;
+    justify-self: center;
 }

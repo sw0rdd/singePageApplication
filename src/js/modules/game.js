@@ -1,4 +1,4 @@
-import * as window from './window.js';
+import * as windowManager from './window.js';
 import * as memoryGame from './memoryGame.js';
 
 let size
@@ -9,7 +9,7 @@ export function createGridInputWindow(title) {
     windowElement.classList.add('window');
     windowElement.id = 'input_box';
 
-    const titleBar = window.makeTitleBar(title, windowElement);
+    const titleBar = windowManager.makeTitleBar(title, windowElement);
 
     const closeButton = document.createElement('button');
     closeButton.classList.add('close_button');
@@ -48,8 +48,8 @@ export function createGridInputWindow(title) {
     windowElement.appendChild(gameInputBox);
 
     document.querySelector('main').appendChild(windowElement);
-    window.makeDraggable(windowElement);
-    window.positionWindow(windowElement);
+    windowManager.makeDraggable(windowElement);
+    windowManager.positionWindow(windowElement);
 
 
     document.querySelector('#submit_grid').addEventListener('click', (event) => {

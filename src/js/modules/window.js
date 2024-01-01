@@ -1,7 +1,7 @@
 let windowCount = 0;
 let highestZIndex = 100;
 const offsetIncrement = 20;
-const maxWindowsBeforeBounce = 20
+const maxWindowsBeforeBounce = 10
 
 /**
  * make a window draggable
@@ -35,36 +35,36 @@ export function makeDraggable(element) {
 
 
     function elementDrag(e) {
-    e = e || window.event;
-    e.preventDefault();
+        e = e || window.event;
+        e.preventDefault();
 
-    // Calculate the new cursor position:
-    pos1 = pos3 - e.clientX;
-    pos2 = pos4 - e.clientY;
-    pos3 = e.clientX;
-    pos4 = e.clientY;
+        // Calculate the new cursor position:
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
 
-    // Set the element's new position:
-    let newTop = element.offsetTop - pos2;
-    let newLeft = element.offsetLeft - pos1;
+        // Set the element's new position:
+        let newTop = element.offsetTop - pos2;
+        let newLeft = element.offsetLeft - pos1;
 
-    // Get the boundaries of the body element
-    const bodyRect = document.body.getBoundingClientRect();
+        // Get the boundaries of the body element
+        const bodyRect = document.body.getBoundingClientRect();
 
-    // Check if the new position is within the boundaries of the body
-    if (newLeft < 0) newLeft = 0;
-    if (newTop < 0) newTop = 0;
-    if (newLeft + element.offsetWidth > bodyRect.width) {
-        newLeft = bodyRect.width - element.offsetWidth;
+        // Check if the new position is within the boundaries of the body
+        if (newLeft < 0) newLeft = 0;
+        if (newTop < 0) newTop = 0;
+        if (newLeft + element.offsetWidth > bodyRect.width) {
+            newLeft = bodyRect.width - element.offsetWidth;
+        }
+        if (newTop + element.offsetHeight > bodyRect.height) {
+            newTop = bodyRect.height - element.offsetHeight;
+        }
+
+        // Apply the new position
+        element.style.top = newTop + "px";
+        element.style.left = newLeft + "px";
     }
-    if (newTop + element.offsetHeight > bodyRect.height) {
-        newTop = bodyRect.height - element.offsetHeight;
-    }
-
-    // Apply the new position
-    element.style.top = newTop + "px";
-    element.style.left = newLeft + "px";
-}
 
     function closeDragElement() {
         element.classList.remove('dragging');
@@ -77,25 +77,34 @@ export function makeDraggable(element) {
 
 /**
  * position a window
+ * stack windows on top of each other
  * prevents windows from going off screen
  * prevents windows from overlapping
  * @param {HTMLElement} windowElement
  */
 export function positionWindow(windowElement) {
-    if (windowCount === 0) {
-        // do nothing, css style applies
+    let initialX = 30;
+    let initialY = 30;
+
+    // for bounce effect
+    let adjustedCount = windowCount % (maxWindowsBeforeBounce * 2);
+
+    // offset calculations
+    let offsetX, offsetY;
+    if (adjustedCount < maxWindowsBeforeBounce) {
+        // before we come to limit, stack normal
+        offsetX = initialX + offsetIncrement * adjustedCount;
+        offsetY = initialY + offsetIncrement * adjustedCount;
     } else {
-        // Adjust the window count for bounce back effect
-        let adjustedCount = windowCount % maxWindowsBeforeBounce;
-
-        // offset calculationss
-        const offsetX = (window.innerWidth - windowElement.offsetWidth) / 2 + offsetIncrement * adjustedCount;
-        const offsetY = (window.innerHeight - windowElement.offsetHeight) / 2 + offsetIncrement * adjustedCount;
-
-        windowElement.style.left = `${offsetX}px`;
-        windowElement.style.top = `${offsetY}px`;
-        windowElement.style.transform = 'none'; 
+        // when we reach the limit, stack to right and down
+        let bounceAdjustedCount = adjustedCount - maxWindowsBeforeBounce;
+        offsetX = initialX + offsetIncrement * (maxWindowsBeforeBounce + bounceAdjustedCount);
+        offsetY = initialY + offsetIncrement * (maxWindowsBeforeBounce + bounceAdjustedCount);
     }
+
+    windowElement.style.left = `${offsetX}px`;
+    windowElement.style.top = `${offsetY}px`;
+    windowElement.style.transform = 'none';
 
     highestZIndex++;
     windowElement.style.zIndex = highestZIndex;
@@ -104,15 +113,16 @@ export function positionWindow(windowElement) {
 }
 
 
+
 export function makeTitleBar(title) {
 
-        const titleBar = document.createElement('div');
-        titleBar.classList.add('title-bar');
-        
-        const titleText = document.createElement('h1');
-        titleText.classList.add('title-bar-text');
-        titleText.textContent = title;
-        titleBar.appendChild(titleText);
+    const titleBar = document.createElement('div');
+    titleBar.classList.add('title-bar');
 
-        return titleBar;
+    const titleText = document.createElement('h1');
+    titleText.classList.add('title-bar-text');
+    titleText.textContent = title;
+    titleBar.appendChild(titleText);
+
+    return titleBar;
 }

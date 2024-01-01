@@ -1,4 +1,4 @@
-import * as window from './window.js';
+import * as windowManager from './window.js';
 
 
 const apiKey = "c663b54cc99b1b7eb1fc579db6049404"
@@ -9,7 +9,7 @@ export function createWeatherWindow(title) {
     const windowElement = document.createElement('div');
     windowElement.classList.add('window');
 
-    const titleBar = window.makeTitleBar(title);
+    const titleBar = windowManager.makeTitleBar(title);
 
     const closeButton = document.createElement('button');
     closeButton.classList.add('close_button');
@@ -109,7 +109,7 @@ export function createWeatherWindow(title) {
     card.appendChild(weather);
     windowElement.appendChild(card);
 
-    window.makeDraggable(windowElement);
+    windowManager.makeDraggable(windowElement);
     document.querySelector('main').appendChild(windowElement);
 
     button.addEventListener('click', () => {
@@ -124,7 +124,7 @@ export function createWeatherWindow(title) {
         }
     });
 
-    window.positionWindow(windowElement);
+    windowManager.positionWindow(windowElement);
 
     input.focus();
 
