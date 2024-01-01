@@ -30,6 +30,8 @@ export function makeDraggable(element) {
         pos4 = e.clientY;
         document.onmouseup = closeDragElement;
         document.onmousemove = elementDrag;
+
+        element.classList.add('focused-window');
     }
 
 
@@ -70,6 +72,7 @@ export function makeDraggable(element) {
         element.classList.remove('dragging');
         document.onmouseup = null;
         document.onmousemove = null;
+        element.classList.remove('focused-window');
     }
 }
 

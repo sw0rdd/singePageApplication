@@ -146,7 +146,6 @@ export class MemoryGame {
 
             memory_card.addEventListener('keydown', (e) => {
                 if ((e.key === 'Enter' || e.key === ' ') && !memory_card.classList.contains('matched')) {
-                    console.log('enter')
                     memory_card.classList.toggle('togglCard');
                     this.checkCards(e, memory_card)
                 }

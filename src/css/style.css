@@ -107,9 +107,9 @@ footer {
     z-index: 10;
 }
 
-/* .window:focus {
-    outline: 100px solid #000;
-} */
+.focused-window {
+    box-shadow: 0px 0px 10px 3px rgba(0,0,0,10);
+}
 
 .close_button img {
     border-radius: 50%;
