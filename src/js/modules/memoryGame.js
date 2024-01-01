@@ -60,7 +60,13 @@ export class MemoryGame {
     /**
      * create the game window
      * add the cards to the window
-     * add event listeners to the cards
+     * add event listeners to the cards, both click and keyboard
+     * @see addKeyboardNavigation
+     * @see checkCards
+     * @see reset
+     * @see focusFirstCard
+     * @see setGridLayout
+     * @see randomize
      */
     CreateGame() {
 
@@ -111,7 +117,7 @@ export class MemoryGame {
 
         const cardData = this.randomize();
 
-        cardData.forEach((item, index) => {
+        cardData.forEach((item) => {
             const memory_card = document.createElement('div');
             const face = document.createElement('img');
             const back = document.createElement('img');
@@ -139,7 +145,8 @@ export class MemoryGame {
             })
 
             memory_card.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
+                if ((e.key === 'Enter' || e.key === ' ') && !memory_card.classList.contains('matched')) {
+                    console.log('enter')
                     memory_card.classList.toggle('togglCard');
                     this.checkCards(e, memory_card)
                 }
@@ -201,11 +208,14 @@ export class MemoryGame {
         const togglCards = this.gameElement.querySelectorAll('.togglCard');
 
         // logic 
+        // if there are 2 flipped cards then check if they are the same
         if (flippedCards.length === 2) {
+            // check if the cards are the same, keep them flipped and prevent clicking  
             if (flippedCards[0].getAttribute('name') === flippedCards[1].getAttribute('name')) {
                 flippedCards.forEach((card) => {
                     card.classList.remove('flipped')
                     card.style.pointerEvents = 'none'
+                    card.classList.add('matched')
                 })
             } else {
                 flippedCards.forEach((card) => {
@@ -242,7 +252,7 @@ export class MemoryGame {
         this.section.style.pointerEvents = 'none';
     
         cardData.forEach((item, index) => {
-            cards[index].classList.remove('togglCard');
+            cards[index].classList.remove('togglCard', 'matched');
             setTimeout(() => {
                 cards[index].style.pointerEvents = 'all';
                 faces[index].src = item.imgSrc;
@@ -258,15 +268,20 @@ export class MemoryGame {
         this.focusFirstCard();
     }
 
+    /**
+     * focus the first card in the grid
+     */
     focusFirstCard() {
         const firstCard = this.gameElement.querySelector('.memory_card');
-        console.log(firstCard)
         if (firstCard) {
             firstCard.focus();
         }
     }
 
-
+    /**
+     * add keyboard navigation to the cards
+     * uses optional chaining operator to prevent errors
+     */
     addKeyboardNavigation() {
         const cards = this.gameElement.querySelectorAll('.memory_card');
         const numCols = this.getNumCols();
@@ -295,6 +310,10 @@ export class MemoryGame {
         });
     }
     
+    /**
+     * 
+     * @returns {number} number of columns in the grid
+     */
     getNumCols() {
         switch (this.size) {
             case '4x4':

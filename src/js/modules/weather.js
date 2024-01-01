@@ -32,7 +32,7 @@ export function createWeatherWindow(title) {
     input.spellcheck = false;
     const button = document.createElement('button');
     const img = document.createElement('img');
-    img.src = 'img/search.png';
+    img.src = 'img/weather/search.png';
     img.alt = 'search icon';
     button.appendChild(img);
     search.appendChild(input);
@@ -50,7 +50,7 @@ export function createWeatherWindow(title) {
     const weather = document.createElement('div');
     weather.classList.add('weather');
     const weatherIcon = document.createElement('img');
-    weatherIcon.src = 'img/rain.png';
+    weatherIcon.src = 'img/weather/Rain.png';
     weatherIcon.classList.add('weather_icon');
     weatherIcon.alt = 'weather icon';
     const temp = document.createElement('h1');
@@ -59,13 +59,16 @@ export function createWeatherWindow(title) {
     const city = document.createElement('h2');
     city.classList.add('city');
     city.textContent = 'Haifa';
+    const weatherStatus = document.createElement('h2');
+    weatherStatus.classList.add('weather_status');
+    weatherStatus.textContent = 'Rainy';
     const details = document.createElement('div');
     details.classList.add('details');
 
     const col1 = document.createElement('div');
     col1.classList.add('col');
     const humidityIcon = document.createElement('img');
-    humidityIcon.src = 'img/humidity.png';
+    humidityIcon.src = 'img/weather/humidity.png';
     humidityIcon.alt = 'humidity icon';
     const humidity = document.createElement('div');
     const humidityP = document.createElement('p');
@@ -81,7 +84,7 @@ export function createWeatherWindow(title) {
     const col2 = document.createElement('div');
     col2.classList.add('col');
     const windIcon = document.createElement('img');
-    windIcon.src = 'img/wind.png';
+    windIcon.src = 'img/weather/wind.png';
     windIcon.alt = 'wind icon';
     const wind = document.createElement('div');
     const windP = document.createElement('p');
@@ -100,6 +103,7 @@ export function createWeatherWindow(title) {
     weather.appendChild(weatherIcon);
     weather.appendChild(temp);
     weather.appendChild(city);
+    weather.appendChild(weatherStatus)
     weather.appendChild(details);
 
     card.appendChild(weather);
@@ -141,9 +145,10 @@ async function getWeather(city, windowElement) {
 
         windowElement.querySelector('.city').textContent = data.name;
         windowElement.querySelector('.temp').textContent = Math.round(data.main.temp) + '°C';
+        windowElement.querySelector('.weather_status').textContent = data.weather[0].main;
         windowElement.querySelector('.humidity').textContent = data.main.humidity + '%';
         windowElement.querySelector('.wind').textContent = data.wind.speed + 'km/h';
-        windowElement.querySelector('.weather_icon').src = `img/${data.weather[0].main}.png`;
+        windowElement.querySelector('.weather_icon').src = `img/weather/${data.weather[0].main}.png`;
 
         windowElement.querySelector('.weather').style.display = 'block';
         windowElement.querySelector('.error').style.display = 'none';
@@ -154,31 +159,3 @@ async function getWeather(city, windowElement) {
 
 
 
-/* <div class="card">
-<div class="search">
-    <input type="text" placeholder="Enter city name..." spellcheck="false">
-    <button><img src="img/search.png" alt="search icon"></button>
-</div>
-<div class="weather">
-    <img src="img/rain.png" class="weather_icon" alt="weather icon">
-    <h1 class="temp">22°C </h1>
-    <h2 class="city">Haifa</h2>
-
-    <div class="details">
-        <div class="col">
-            <img src="img/humidity.png" alt="humidity icon">
-            <div>
-                <p class="humidity">50%</p>
-                <p>Humidity</p>
-            </div>
-        </div>
-        <div class="col">
-            <img src="img/wind.png" alt="humidity icon">
-            <div>
-                <p class="wind">15 km/h</p>
-                <p>Wind speed</p>
-            </div>
-        </div>
-    </div>
-</div>
-</div> */
