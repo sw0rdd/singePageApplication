@@ -6,6 +6,9 @@ export class MemoryGame {
         this.cardData = this.randomize();
         this.playerLives = 6
         this.gameElement = null
+
+        // used to prevent clicking on cards while processing 2 cards
+        this.isProcessing = false
     }
 
     randomize() {
@@ -200,17 +203,22 @@ export class MemoryGame {
      * if the player won then reset the game
      * @param {event} e 
      * @param {HTMLElement} clickedCard 
-     * @returns 
      */
     checkCards(e, clickedCard) {
+        if (this.isProcessing || clickedCard.classList.contains('.flipped')) {
+            return;
+        };
+        console.log('check cards')
         clickedCard.classList.add('flipped');
 
         const flippedCards = this.gameElement.querySelectorAll('.flipped');
         const togglCards = this.gameElement.querySelectorAll('.togglCard');
 
+
         // logic 
         // if there are 2 flipped cards then check if they are the same
         if (flippedCards.length === 2) {
+            this.isProcessing = true;
             // check if the cards are the same, keep them flipped and prevent clicking  
             if (flippedCards[0].getAttribute('name') === flippedCards[1].getAttribute('name')) {
                 flippedCards.forEach((card) => {
@@ -218,19 +226,34 @@ export class MemoryGame {
                     card.style.pointerEvents = 'none'
                     card.classList.add('matched')
                 })
+                this.isProcessing = false;
             } else {
-                flippedCards.forEach((card) => {
-                    card.classList.remove('flipped');
-                    setTimeout(() => card.classList.remove('togglCard'), 1000)
-                })
-                this.playerLives--;
-                this.gameElement.querySelector('.player_lives_count').textContent = `Player Lives: ${this.playerLives}`;
-                if (this.playerLives === 0) {
-                    setTimeout(() => this.reset('You lost!'), 1000)
-                    return
-                }
+                console.log('not the same')
+                // if the cards are not the same then flip them back and count the player lives
+                setTimeout(() => {
+                    this.gameElement.querySelectorAll('.memory_card').forEach(card => {
+                        if (!card.classList.contains('matched')) {
+                            card.classList.remove('flipped', 'togglCard');
+                        }
+                    });
+                    this.playerLives--;
+                    this.gameElement.querySelector('.player_lives_count').textContent = `Player Lives: ${this.playerLives}`;
+                    if (this.playerLives === 0) {
+                        setTimeout(() => this.reset('You lost!'), 1000)
+                    }
+                    this.isProcessing = false;
+                }, 1000)
             }
-        }
+
+            setTimeout(() => {
+                togglCards.forEach((card) => {
+                    if (!card.classList.contains('matched')) {
+                        card.style.pointerEvents = 'auto'
+                    }
+                })
+            }, 1000)
+            
+        } 
 
         // check if won
         setTimeout(() => {
