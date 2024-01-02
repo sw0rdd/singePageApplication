@@ -122,7 +122,7 @@ export function makeTitleBar(title) {
     const titleBar = document.createElement('div');
     titleBar.classList.add('title-bar');
 
-    const titleText = document.createElement('h1');
+    const titleText = document.createElement('p');
     titleText.classList.add('title-bar-text');
     titleText.textContent = title;
     titleBar.appendChild(titleText);

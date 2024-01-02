@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Space+Grotesk&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Oswald&family=Space+Grotesk&display=swap');
 
 
 body {
@@ -133,12 +134,15 @@ footer {
 }
 
 .title-bar-text {
-    flex-grow: 1; 
-    text-align: center; 
+    /* flex-grow: 1;  */
+    margin: 0;
+    padding-left: 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .close {
-    float: right;
     cursor: pointer;
 }
 

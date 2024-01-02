@@ -4,11 +4,32 @@ export class MemoryGame {
     constructor(size) {
         this.size = size;
         this.cardData = this.randomize();
-        this.playerLives = 6
         this.gameElement = null
-
+        
         // used to prevent clicking on cards while processing 2 cards
         this.isProcessing = false
+
+        this.setPlayerLives(size);
+    }
+
+    /**
+     * set the number of lives depending on the size
+     * @param {string} size 
+     */
+    setPlayerLives(size) {
+        switch (size) {
+            case '4x4':
+                this.playerLives = 6;
+                break;
+            case '2x2':
+                this.playerLives = 2;
+                break;
+            case '2x4':
+                this.playerLives = 4;
+                break;
+            default:
+                throw new Error('Invalid game size');
+        }
     }
 
     randomize() {
@@ -94,9 +115,12 @@ export class MemoryGame {
         const memory_game = document.createElement('div');
         memory_game.classList.add('memory_game');
 
+        const gameHeader = document.createElement('div');
+        gameHeader.classList.add('game_header');
+
         // this hedaer has lives and reset button
-        const game_header = document.createElement('div');
-        game_header.classList.add('game_header');
+        const livesAndButtonDiv = document.createElement('div');
+        livesAndButtonDiv.classList.add('lives_and_button_div');
 
         const resetButton = document.createElement('button');
         resetButton.classList.add('reset_button');
@@ -109,8 +133,8 @@ export class MemoryGame {
         
         const playerLivesCount = document.createElement('h1');
         playerLivesCount.classList.add('player_lives_count');
-        game_header.appendChild(playerLivesCount);
-        game_header.appendChild(resetButton);
+        livesAndButtonDiv.appendChild(playerLivesCount);
+        livesAndButtonDiv.appendChild(resetButton);
 
         const section = document.createElement('section');
         this.section = section
@@ -156,7 +180,7 @@ export class MemoryGame {
 
         })
 
-        memory_game.appendChild(game_header);
+        memory_game.appendChild(livesAndButtonDiv);
         memory_game.appendChild(section);
         windowElement.appendChild(memory_game);
         document.querySelector('main').appendChild(windowElement);
@@ -164,7 +188,8 @@ export class MemoryGame {
         windowManager.positionWindow(windowElement);
 
 
-        playerLivesCount.textContent = `Player Lives: ${this.playerLives}`
+        // playerLivesCount.textContent = `Player Lives: ${this.playerLives}`
+        playerLivesCount.textContent = `${'💘'.repeat(this.playerLives)}`
 
         this.focusFirstCard();
         this.addKeyboardNavigation();
@@ -237,9 +262,9 @@ export class MemoryGame {
                         }
                     });
                     this.playerLives--;
-                    this.gameElement.querySelector('.player_lives_count').textContent = `Player Lives: ${this.playerLives}`;
+                    this.gameElement.querySelector('.player_lives_count').textContent = `${'💘'.repeat(this.playerLives)}`;
                     if (this.playerLives === 0) {
-                        setTimeout(() => this.reset('You lost!'), 1000)
+                        setTimeout(() => this.reset(false), 1000)
                     }
                     this.isProcessing = false;
                 }, 1000)
@@ -259,16 +284,16 @@ export class MemoryGame {
         setTimeout(() => {
             const totalPairs = this.cardData.length / 2;
             if (togglCards.length === totalPairs * 2) {
-                this.reset('You won!')
+                this.reset(true)
             }
         }, 1000)
     }
 
     /**
      * reset the game
-     * @param {string} message 
+     * @param {boolean} hasWon 
      */
-    reset(message) {
+    reset(hasWon) {
         const cardData = this.randomize();
         let faces = this.gameElement.querySelectorAll('.face');
         let cards = this.gameElement.querySelectorAll('.memory_card');
@@ -285,12 +310,52 @@ export class MemoryGame {
             }, 1000)
         })
     
-        this.playerLives = 6;
-        this.gameElement.querySelector('.player_lives_count').textContent = `Player Lives: ${this.playerLives}`;
-        setTimeout(() => window.alert(message), 100)
+        this.setPlayerLives(this.size)
+        this.gameElement.querySelector('.player_lives_count').textContent = `${'💘'.repeat(this.playerLives)}`;
+
+
+        
+        setTimeout(() => this.showMessageonGameEnd(hasWon), 100)
 
         this.focusFirstCard();
     }
+    
+    showMessageonGameEnd(hasWon) {
+        
+        const memoryGameDiv = this.gameElement.querySelector('.memory_game')
+        const section = memoryGameDiv.querySelector('section')
+        
+        const feedBackBox = document.createElement('div');
+        const feedBackMessage = document.createElement('h1');
+        // feedBackMessage.classList.add('message');
+        feedBackMessage.textContent = hasWon ? this.handleWonMessage() : 'Try again! 😥';
+        feedBackBox.classList.add('message_box');
+        feedBackBox.appendChild(feedBackMessage);
+        
+        memoryGameDiv.insertBefore(feedBackBox, section);
+        
+        setTimeout(() => {
+            feedBackBox.remove();
+        }, 1000)
+        
+        this.focusFirstCard();
+
+    }
+
+    handleWonMessage() {
+        switch (this.size) {
+            case '4x4':
+                return 'Nice Memory! 😎';
+            case '2x2':
+                return '100% winnable! 😏';
+            case '2x4':
+                return 'good job! 😎';
+            default:
+                throw new Error('Invalid game size');
+        }
+    }
+
+
 
     /**
      * focus the first card in the grid

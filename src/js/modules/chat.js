@@ -43,11 +43,15 @@ function initWebSocket() {
                     chatMessage.classList.add('message');
                     chatMessage.textContent = messageData;
 
-                    const userNameElement = document.createElement('span');
-                    userNameElement.classList.add('server_name');
-                    userNameElement.textContent = data.username;
+                    const receiverNameElement = document.createElement('span');
+                    receiverNameElement.classList.add('server_name');
+                    receiverNameElement.textContent = data.username;
 
-                    messageBox.appendChild(userNameElement);
+                    const receiverNameContainter = document.createElement('div');
+                    receiverNameContainter.classList.add('name_container');
+                    receiverNameContainter.appendChild(receiverNameElement)
+
+                    messageBox.appendChild(receiverNameContainter.cloneNode(true));
                     messageBox.appendChild(chatMessage);
 
 
@@ -255,8 +259,13 @@ export function createChatWindow(title) {
         userNameElement.classList.add('user_name');
         userNameElement.textContent = userName;
 
+        const senderNameContainter = document.createElement('div');
+        senderNameContainter.classList.add('name_container');
+        senderNameContainter.appendChild(userNameElement)
+
+
         messageBox.appendChild(userMessage);
-        messageBox.appendChild(userNameElement);
+        messageBox.appendChild(senderNameContainter.cloneNode(true));
 
         event.target.closest('.chat_window').querySelector('.chat_input').value = '';
 
