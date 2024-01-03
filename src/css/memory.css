@@ -17,10 +17,19 @@ section {
     perspective: 1000px;
 }
 
+.game_header {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+}
+
+
+
+
+
 .lives_and_button_div {
-    /* background-color: black; */
-    border: solid 1px black;
-    /* margin: 10px; */
     display: flex;
     flex-direction: row;
     align-items: center;

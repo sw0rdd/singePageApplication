@@ -122,12 +122,14 @@ export class MemoryGame {
         const livesAndButtonDiv = document.createElement('div');
         livesAndButtonDiv.classList.add('lives_and_button_div');
 
+        gameHeader.appendChild(livesAndButtonDiv);
+
         const resetButton = document.createElement('button');
         resetButton.classList.add('reset_button');
         resetButton.textContent = 'Reset';
 
         resetButton.addEventListener('click', () => {
-            this.reset('You lost!')
+            this.reset(false)
         })
 
         
@@ -167,12 +169,14 @@ export class MemoryGame {
             memory_card.appendChild(back);
 
             memory_card.addEventListener('click', (e) => {
-                memory_card.classList.toggle('togglCard');
-                this.checkCards(e, memory_card)
+                if (!memory_card.classList.contains('flipped')) {
+                    memory_card.classList.toggle('togglCard');
+                    this.checkCards(e, memory_card)
+                }
             })
 
             memory_card.addEventListener('keydown', (e) => {
-                if ((e.key === 'Enter' || e.key === ' ') && !memory_card.classList.contains('matched')) {
+                if ((e.key === 'Enter' || e.key === ' ') && !memory_card.classList.contains('matched') && !memory_card.classList.contains('flipped')) {
                     memory_card.classList.toggle('togglCard');
                     this.checkCards(e, memory_card)
                 }
@@ -180,7 +184,7 @@ export class MemoryGame {
 
         })
 
-        memory_game.appendChild(livesAndButtonDiv);
+        memory_game.appendChild(gameHeader);
         memory_game.appendChild(section);
         windowElement.appendChild(memory_game);
         document.querySelector('main').appendChild(windowElement);
@@ -231,6 +235,7 @@ export class MemoryGame {
      */
     checkCards(e, clickedCard) {
         if (this.isProcessing || clickedCard.classList.contains('.flipped')) {
+            console.log('has flipped')
             return;
         };
         console.log('check cards')
@@ -259,6 +264,7 @@ export class MemoryGame {
                     this.gameElement.querySelectorAll('.memory_card').forEach(card => {
                         if (!card.classList.contains('matched')) {
                             card.classList.remove('flipped', 'togglCard');
+                            card.style.pointerEvents = 'auto'
                         }
                     });
                     this.playerLives--;
@@ -315,27 +321,26 @@ export class MemoryGame {
 
 
         
-        setTimeout(() => this.showMessageonGameEnd(hasWon), 100)
+        setTimeout(() => this.showMessageOnGameEnd(hasWon), 100)
 
         this.focusFirstCard();
     }
     
-    showMessageonGameEnd(hasWon) {
+    showMessageOnGameEnd(hasWon) {
         
-        const memoryGameDiv = this.gameElement.querySelector('.memory_game')
-        const section = memoryGameDiv.querySelector('section')
+        const gameHeader = this.gameElement.querySelector('.game_header');
         
-        const feedBackBox = document.createElement('div');
+        const feedBackDiv = document.createElement('div');
         const feedBackMessage = document.createElement('h1');
-        // feedBackMessage.classList.add('message');
+        feedBackMessage.classList.add('feedback_message');
         feedBackMessage.textContent = hasWon ? this.handleWonMessage() : 'Try again! 😥';
-        feedBackBox.classList.add('message_box');
-        feedBackBox.appendChild(feedBackMessage);
+        feedBackDiv.classList.add('feed_back_div');
+        feedBackDiv.appendChild(feedBackMessage);
         
-        memoryGameDiv.insertBefore(feedBackBox, section);
+        gameHeader.appendChild(feedBackDiv);
         
         setTimeout(() => {
-            feedBackBox.remove();
+            feedBackDiv.remove();
         }, 1000)
         
         this.focusFirstCard();
