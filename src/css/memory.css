@@ -7,8 +7,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgb(191,191,191);
-    background: radial-gradient(circle, rgba(191,191,191,1) 0%, rgba(118,90,44,1) 93%);
+    background: linear-gradient(135deg, #00feba, #5b548a);
 }
 
 section {

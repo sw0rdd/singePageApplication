@@ -34,7 +34,7 @@ function initWebSocket() {
             const data = JSON.parse(event.data);
             const { type, data: messageData, username } = data;
 
-            if (type === 'message') {
+            if (type === 'message' && username !== userName) {
 
                 messagesArray.push({ username, messageData });
                 webStorage.saveMessages(messagesArray);
@@ -45,7 +45,7 @@ function initWebSocket() {
                     messageBox.classList.add('message_box');
 
 
-                    const chatMessage = document.createElement('span');
+                    const chatMessage = document.createElement('div');
                     chatMessage.classList.add('message');
                     chatMessage.textContent = messageData;
 
@@ -62,6 +62,7 @@ function initWebSocket() {
 
 
                     chatBody.appendChild(messageBox.cloneNode(true));
+                    chatBody.scrollTop = chatBody.scrollHeight;
                 })
 
             } else if (type === 'heartbeat') {
@@ -201,17 +202,25 @@ function createChatWindow(title) {
 
     const chatHeader = document.createElement('div');
     chatHeader.classList.add('chat_header');
-    const chatHeaderTitle = document.createElement('p');
-    chatHeaderTitle.textContent = 'LNU Chat';
 
     const changeNameButton = document.createElement('button');
     changeNameButton.classList.add('change_name_button');
     changeNameButton.textContent = 'Change name';
     changeNameButton.addEventListener('click', handleChangeName);
 
+    const clearChatButton = document.createElement('button');
+    clearChatButton.classList.add('clear_chat_button');
+    clearChatButton.textContent = 'Clear chat';
+    clearChatButton.addEventListener('click', () => {
+        webStorage.saveMessages([]);
+        document.querySelectorAll('.chat_body').forEach((chatBody) => {
+            chatBody.innerHTML = '';
+        })
+    })
 
-    chatHeader.appendChild(chatHeaderTitle);
+
     chatHeader.appendChild(changeNameButton);
+    chatHeader.appendChild(clearChatButton);
 
     const chatBody = document.createElement('div');
     chatBody.classList.add('chat_body');
@@ -262,7 +271,7 @@ function createChatWindow(title) {
         messageBox.classList.add('user_message_box');
 
 
-        const userMessage = document.createElement('span');
+        const userMessage = document.createElement('div');
         userMessage.classList.add('message');
         userMessage.classList.add('user_message');
         userMessage.textContent = message;
@@ -287,17 +296,21 @@ function createChatWindow(title) {
         })
 
     })
-    
+
     chatBody.scrollTop = chatBody.scrollHeight;
 
 }
 
+/**
+ * load messages from storage and add them to the chat window
+ * @param {HTMLElement} chatBody 
+ */
 function loadMessages(chatBody) {
     messagesArray.forEach(message => {
         const messageBox = document.createElement('div');
         messageBox.classList.add('message_box');
 
-        const messageContent = document.createElement('span');
+        const messageContent = document.createElement('div');
         messageContent.classList.add('message');
         messageContent.textContent = message.messageData;
 
@@ -309,15 +322,19 @@ function loadMessages(chatBody) {
             messageBox.classList.add('user_message_box');
             messageContent.classList.add('user_message');
             nameElement.classList.add('user_name');
+
+            messageBox.appendChild(messageContent);
+            messageBox.appendChild(nameContainer);
+
         } else {
             nameElement.classList.add('server_name');
+            messageBox.appendChild(nameContainer);
+            messageBox.appendChild(messageContent);
         }
 
         nameElement.textContent = message.username;
         nameContainer.appendChild(nameElement);
 
-        messageBox.appendChild(messageContent);
-        messageBox.appendChild(nameContainer);
 
         chatBody.appendChild(messageBox);
     })
@@ -330,107 +347,125 @@ function loadMessages(chatBody) {
  * @param {event} event 
  */
 function handleChangeName(event) {
-            event.preventDefault();
+    event.preventDefault();
 
-            const changeNameButton = event.target;
-            changeNameButton.style.display = 'none';
+    const parentChatWindow = event.target.closest('.chat_window');
+    const clearChatButton = parentChatWindow.querySelector('.clear_chat_button');
+    clearChatButton.style.display = 'none';
 
-            // Create input for new name
-            const userInput = document.createElement('input');
-            userInput.type = 'text';
-            userInput.id = 'new_user_name';
-            userInput.placeholder = 'New name';
+    const changeNameButton = event.target;
+    changeNameButton.style.display = 'none';
 
-            // Create button for submitting new name
-            const userButton = document.createElement('button');
-            userButton.textContent = 'Submit';
+    // Create input for new name
+    const userInput = document.createElement('input');
+    userInput.type = 'text';
+    userInput.id = 'new_user_name';
+    userInput.placeholder = 'New name';
 
-            userButton.addEventListener('click', () => {
-                const newName = userInput.value;
+    // Create button for submitting new name
+    const userButton = document.createElement('button');
+    userButton.textContent = 'Submit';
 
-                if (newName === '') {
-                    alert('Please enter a valid name!');
-                    return;
-                } else {
-                    updateUserName(newName);
-                    userInput.remove();
-                    userButton.remove();
-                    changeNameButton.style.display = 'block';
-                }
-            });
+    userButton.addEventListener('click', () => {
+        const newName = userInput.value;
 
-            // Handle enter key
-            userInput.addEventListener('keydown', (event) => {
-                if (event.key === 'Enter') {
-                    const newName = userInput.value;
-
-                    if (newName === '') {
-                        alert('Please enter a valid name!');
-                        return;
-                    } else {
-                        updateUserName(newName);
-                        userInput.remove();
-                        userButton.remove();
-                        changeNameButton.style.display = 'block';
-                    }
-                }
-            })
-
-            // Append input and button to the chat header
-            const chatHeader = this.closest('.chat_header');
-            chatHeader.appendChild(userInput);
-            chatHeader.appendChild(userButton);
-
-            userInput.focus();
+        if (newName === '') {
+            alert('Please enter a valid name!');
+            return;
+        } else {
+            updateUserName(newName);
+            userInput.remove();
+            userButton.remove();
+            changeNameButton.style.display = 'block';
         }
+    });
+
+    // Handle enter key
+    userInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            const newName = userInput.value;
+
+            if (newName === '') {
+                alert('Please enter a valid name!');
+                return;
+            } else {
+                updateUserName(newName);
+                userInput.remove();
+                userButton.remove();
+                changeNameButton.style.display = 'block';
+                clearChatButton.style.display = 'block';
+
+            }
+        }
+    })
+
+
+    // Append input and button to the chat header
+    const chatHeader = this.closest('.chat_header');
+    chatHeader.appendChild(userInput);
+    chatHeader.appendChild(userButton);
+
+    userInput.focus();
+}
 
 
 
 /**
  * update the username in all chat windows
+ * update the username in the messages array and save it to storage
+ * @see webStorage
  * @param {string} newName 
  */
 function updateUserName(newName) {
-            const oldName = userName;
-            userName = newName;
-            webStorage.saveUserName(userName);
+    const oldName = userName;
+    userName = newName;
+    webStorage.saveUserName(userName);
 
-            // update the username in the messages array and save it again to storage
-            messagesArray = messagesArray.map(message => {
-                if (message.username === oldName) {
-                    return {...message, username: newName}
-                }
-                return message;
-            })
-
-            webStorage.saveMessages(messagesArray);
-
-            // Update the username in all chat windows
-            document.querySelectorAll('.user_name').forEach(elem => {
-                if (elem.textContent === oldName) {
-                    elem.textContent = newName;
-                }
-            });
+    // update the username in the messages array and save it again to storage
+    messagesArray = messagesArray.map(message => {
+        if (message.username === oldName) {
+            return { ...message, username: newName }
         }
+        return message;
+    })
+
+    webStorage.saveMessages(messagesArray);
+
+    // Update the username in all chat windows
+    // document.querySelectorAll('.user_name').forEach(elem => {
+    //     if (elem.textContent === oldName) {
+    //         elem.textContent = newName;
+    //     }
+    // });
+}
 
 
 
 /**
  * send a message to the server
+ * push the message to the messages array and save it to storage
+ * @see webStorage
  * @param {string} message 
  */
 function sendMessage(message) {
-            const data = {
-                type: 'message',
-                data: message,
-                username: userName,
-                channel: 'my, not so secret, channel',
-                key: apiKey
-            };
-            messagesArray.push({ username: userName, messageData: message });
-            webStorage.saveMessages(messagesArray);
-            webSocket.send(JSON.stringify(data));
-        }
+    const data = {
+        type: 'message',
+        data: message,
+        username: userName,
+        channel: 'my, not so secret, channel',
+        key: apiKey
+    };
+    messagesArray.push({ username: userName, messageData: message });
+    webStorage.saveMessages(messagesArray);
+    webSocket.send(JSON.stringify(data));
+
+    // scroll to the bottom of the chat window
+    setTimeout(() => {
+        document.querySelectorAll('.chat_body').forEach((chatBody) => {
+            chatBody.scrollTop = chatBody.scrollHeight;
+        })
+    }, 0)
+}
 
 
 

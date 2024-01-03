@@ -235,10 +235,8 @@ export class MemoryGame {
      */
     checkCards(e, clickedCard) {
         if (this.isProcessing || clickedCard.classList.contains('.flipped')) {
-            console.log('has flipped')
             return;
         };
-        console.log('check cards')
         clickedCard.classList.add('flipped');
 
         const flippedCards = this.gameElement.querySelectorAll('.flipped');
@@ -258,7 +256,6 @@ export class MemoryGame {
                 })
                 this.isProcessing = false;
             } else {
-                console.log('not the same')
                 // if the cards are not the same then flip them back and count the player lives
                 setTimeout(() => {
                     this.gameElement.querySelectorAll('.memory_card').forEach(card => {

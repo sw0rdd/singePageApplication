@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Space+Grotesk&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Oswald&family=Space+Grotesk&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Montserrat:wght@400;500&family=Oswald&family=Space+Grotesk&display=swap');
+
 
 
 body {
     margin: 0;
-    /* font-size: 20px; */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    /* background-image: url('../img/white_bg_2.png'); */
     background-size: cover; 
     background-repeat: no-repeat; 
     background-position: center;
@@ -88,7 +88,7 @@ footer {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 1.5em;
+    font-size: 1em;
     font-family: 'JetBrains Mono', monospace;
     margin: 4px 2px;
     cursor: pointer;
@@ -123,8 +123,11 @@ footer {
     cursor: pointer;
 }
 
+
 .title-bar {
-    background-color: #eee;
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 16%, rgba(0,212,255,1) 78%);
+    color: white;
     cursor: move;
     padding: 5px;
     text-align: center;
@@ -134,10 +137,9 @@ footer {
 }
 
 .title-bar-text {
-    /* flex-grow: 1;  */
     margin: 0;
     padding-left: 10px;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'JetBrains Mono', monospace;
     font-weight: bold;
     font-size: 20px;
 }

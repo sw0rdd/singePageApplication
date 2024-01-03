@@ -17,7 +17,6 @@ export function createGridInputWindow(title) {
 
     closeButton.addEventListener('click', () => {
         windowElement.remove();
-        submissionWindowShown = false;
     });
 
     titleBar.appendChild(closeButton);
