@@ -58,6 +58,7 @@
 
 }
 
+/* contains the message itself */
 .message_box {
     display: flex;
     flex-direction: row;
@@ -71,27 +72,35 @@
     margin-left: auto;
 }
 
+/* message I receive */
 .message {
+    display: inline-block;
     background-color: dodgerblue;
     padding: 10px;
     color: white;
     border-radius: 10px;
     margin-right: 10px; 
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
+/* message I send */
 .user_message {
+    display: inline-block;
     background-color: white;
     color: black;
     margin-left: 10px; 
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .name_container {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-grow: 0; /* Prevents the container from growing */
-    flex-shrink: 0; /* Prevents the container from shrinking */
-    width: auto; /* Width adjusts to content */
+    flex-grow: 0;
+    flex-shrink: 0; 
+    width: auto; 
 }
 
 .server_name, .user_name {

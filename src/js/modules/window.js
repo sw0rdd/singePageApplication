@@ -1,7 +1,7 @@
 let windowCount = 0;
 let highestZIndex = 100;
 const offsetIncrement = 20;
-const maxWindowsBeforeBounce = 10
+const maxWindowsBeforeBounce = 3
 
 /**
  * make a window draggable
@@ -90,7 +90,7 @@ export function positionWindow(windowElement) {
     let initialY = 30;
 
     // for bounce effect
-    let adjustedCount = windowCount % (maxWindowsBeforeBounce * 2);
+    let adjustedCount = windowCount % (maxWindowsBeforeBounce);
 
     // offset calculations
     let offsetX, offsetY;
