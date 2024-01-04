@@ -404,7 +404,6 @@ function updateUserName (newName) {
     nameElement.textContent = newName
   })
 
-
   webStorage.saveMessages(messagesArray)
 }
 

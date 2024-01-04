@@ -142,6 +142,7 @@ export function positionWindow (windowElement) {
  * make the titlebar for the window
  * close button is added later
  * @param {string} title  - the title of the window
+ * @param {string} imgSrc - the icon for the window
  * @returns {HTMLElement} - the titlebar element
  */
 export function makeTitleBar (title, imgSrc) {
@@ -159,12 +160,12 @@ export function makeTitleBar (title, imgSrc) {
   const titleText = document.createElement('p')
   titleText.classList.add('title-bar-text')
   titleText.textContent = title
-  
+
   tilteIconDiv.appendChild(titleBarImg)
   tilteIconDiv.appendChild(titleText)
-  
+
   titleBar.appendChild(tilteIconDiv)
-  
+
   titleBar.appendChild(tilteIconDiv)
   return titleBar
 }
