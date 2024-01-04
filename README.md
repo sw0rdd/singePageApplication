@@ -1,6 +1,6 @@
 # A3 SPA
 
-![SPA](./src/img/SPA.png)
+![SPA](./SPA.png)
 
 ## Description
 This is a Single Page Application (SPA) developed with pure JavaScript, HTML and CSS. 
