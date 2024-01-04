@@ -1,6 +1,6 @@
 # A3 SPA
 
-![SPA](./SPA.png)
+![SPA](./src/img/SPA.png)
 
 ## Description
 This is a Single Page Application (SPA) developed with pure JavaScript, HTML and CSS. 
@@ -15,16 +15,23 @@ Clone the repo
 ```
 git clone git@gitlab.lnu.se:1dv528/student/sy222ea/a3-spa.git
 ```
-<br># A3 SPA
-
+<br>
 
 Navigate to the repo
 ```
 cd your_desired_path/a3-spa
 ```
 <br>
+While I was developing the SPA, I had to branch out to test a new feature and I ended up doing the rest of the code in this new branch that is called 'memorygame'.<br> I know the name should be 'main' or 'SPA' but I named it like that because I was trying something out with the memory game<br>
+So you need to checkout to that branch in order to use the applicaiton
+<br>
 
-To be able to run the linters you will first need node package manager
+change branch
+```
+git checkout memorygame
+```
+
+To be able to run the application and the linters you will first need node package manager
 
 ```
 npm install
@@ -38,16 +45,7 @@ npm run lint
 
 # Try the website 
 
-While I was developing the SPA, I had to branch out to test a new feature and I ended up doing the rest of the code in this new branch that is called 'memorygame'<br>
-So you need to checkout to that branch in order to use the applicaiton
-<br>
-
-change branch
-```
-git checkout memorygame
-```
-<br>
-Then launch the application by typing
+Launch the application by typing
 
 ```
 npm run serve
