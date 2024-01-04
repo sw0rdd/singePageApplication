@@ -1,5 +1,17 @@
 import * as windowManager from './window.js'
 
+import img0 from '../../img/0.png'
+import img1 from '../../img/1.png'
+import img2 from '../../img/2.png'
+import img3 from '../../img/3.png'
+import img4 from '../../img/4.png'
+import img5 from '../../img/5.png'
+import img6 from '../../img/6.png'
+import img7 from '../../img/7.png'
+import questionMark from '../../img/question_mark.png'
+import memorylogo from '../../img/memory.png'
+import closeIconImg from '../../img/close2.png'
+
 /**
  * Memory Game class
  * create the game window and manage the game
@@ -52,22 +64,22 @@ export class MemoryGame {
    */
   #getData () {
     const baseData = [
-      { imgSrc: './img/memory_game/0.png', name: '0' },
-      { imgSrc: './img/memory_game/1.png', name: '1' },
-      { imgSrc: './img/memory_game/2.png', name: '2' },
-      { imgSrc: './img/memory_game/3.png', name: '3' },
-      { imgSrc: './img/memory_game/4.png', name: '4' },
-      { imgSrc: './img/memory_game/5.png', name: '5' },
-      { imgSrc: './img/memory_game/6.png', name: '6' },
-      { imgSrc: './img/memory_game/7.png', name: '7' },
-      { imgSrc: './img/memory_game/0.png', name: '0' },
-      { imgSrc: './img/memory_game/1.png', name: '1' },
-      { imgSrc: './img/memory_game/2.png', name: '2' },
-      { imgSrc: './img/memory_game/3.png', name: '3' },
-      { imgSrc: './img/memory_game/4.png', name: '4' },
-      { imgSrc: './img/memory_game/5.png', name: '5' },
-      { imgSrc: './img/memory_game/6.png', name: '6' },
-      { imgSrc: './img/memory_game/7.png', name: '7' }
+      { name: '0', imgSrc: img0 },
+      { name: '1', imgSrc: img1 },
+      { name: '2', imgSrc: img2 },
+      { name: '3', imgSrc: img3 },
+      { name: '4', imgSrc: img4 },
+      { name: '5', imgSrc: img5 },
+      { name: '6', imgSrc: img6 },
+      { name: '7', imgSrc: img7 },
+      { name: '0', imgSrc: img0 },
+      { name: '1', imgSrc: img1 },
+      { name: '2', imgSrc: img2 },
+      { name: '3', imgSrc: img3 },
+      { name: '4', imgSrc: img4 },
+      { name: '5', imgSrc: img5 },
+      { name: '6', imgSrc: img6 },
+      { name: '7', imgSrc: img7 }
     ]
 
     let numOfPairs
@@ -107,11 +119,16 @@ export class MemoryGame {
     const windowElement = document.createElement('div')
     windowElement.classList.add('window')
 
-    const titleBar = windowManager.makeTitleBar('Memory Game', './img/memory.png')
+    const titleBar = windowManager.makeTitleBar('Memory Game', memorylogo)
 
     const closeButton = document.createElement('button')
     closeButton.classList.add('close_button')
-    closeButton.innerHTML = '<img src="img/close2.png" alt="close icon">'
+
+    const closeIcon = document.createElement('img')
+    closeIcon.src = closeIconImg
+    closeIcon.alt = 'close icon'
+
+    closeButton.appendChild(closeIcon)
 
     closeButton.addEventListener('click', () => {
       windowElement.remove()
@@ -172,7 +189,7 @@ export class MemoryGame {
       face.src = item.imgSrc
       memoryCard.setAttribute('name', item.name)
 
-      back.src = './img/memory_game/question_mark.png'
+      back.src = questionMark
       back.setAttribute('name', 'question_mark')
 
       memoryCard.setAttribute('tabindex', '0')

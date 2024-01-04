@@ -1,6 +1,9 @@
 import * as windowManager from './window.js'
 import * as webStorage from './webstorage.js'
 
+import chatLogo from '../../img/chat.png'
+import closeIconImg from '../../img/close2.png'
+
 const serverAddress = 'wss://courselab.lnu.se/message-app/socket'
 const apiKey = 'eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd'
 
@@ -100,11 +103,15 @@ function NameSubmissionWindow (title) {
   windowElement.classList.add('window')
   windowElement.id = 'user_info'
 
-  const titleBar = windowManager.makeTitleBar(title, 'img/chat.png')
+  const titleBar = windowManager.makeTitleBar(title, chatLogo)
 
   const closeButton = document.createElement('button')
   closeButton.classList.add('close_button')
-  closeButton.innerHTML = '<img src="img/close2.png" alt="close icon">'
+
+  const closeIcon = document.createElement('img')
+  closeIcon.src = closeIconImg
+  closeIcon.alt = 'close icon'
+  closeButton.appendChild(closeIcon)
 
   closeButton.addEventListener('click', () => {
     windowElement.remove()
@@ -170,11 +177,16 @@ function createChatWindow (title) {
   windowElement.classList.add('window')
   windowElement.classList.add('chat_window')
 
-  const titleBar = windowManager.makeTitleBar(title, 'img/chat.png')
+  const titleBar = windowManager.makeTitleBar(title, chatLogo)
 
   const closeButton = document.createElement('button')
   closeButton.classList.add('close_button')
-  closeButton.innerHTML = '<img src="img/close2.png" alt="close icon">'
+
+  const closeIcon = document.createElement('img')
+  closeIcon.src = closeIconImg
+  closeIcon.alt = 'close icon'
+
+  closeButton.appendChild(closeIcon)
 
   closeButton.addEventListener('click', () => {
     windowElement.remove()

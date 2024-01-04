@@ -1,5 +1,26 @@
 import * as windowManager from './window.js'
 
+import Rain from '../../img/Rain.png'
+import searchIcon from '../../img/search.png'
+import humidityImg from '../../img/humidity.png'
+import windImg from '../../img/wind.png'
+import Clear from '../../img/Clear.png'
+import Clouds from '../../img/Clouds.png'
+import Drizzle from '../../img/Drizzle.png'
+import Mist from '../../img/Mist.png'
+import Snow from '../../img/Snow.png'
+
+import closeIconImg from '../../img/close2.png'
+
+const weatherImages = {
+  Clear,
+  Clouds,
+  Drizzle,
+  Mist,
+  Snow,
+  Rain
+}
+
 const apiKey = 'c663b54cc99b1b7eb1fc579db6049404'
 const apiURL = 'https://api.openweathermap.org/data/2.5/weather?units=metric&q='
 
@@ -13,11 +34,16 @@ export function createWeatherWindow (title) {
   const windowElement = document.createElement('div')
   windowElement.classList.add('window')
 
-  const titleBar = windowManager.makeTitleBar(title, 'img/weather/Mist.png')
+  const titleBar = windowManager.makeTitleBar(title, Mist)
 
   const closeButton = document.createElement('button')
   closeButton.classList.add('close_button')
-  closeButton.innerHTML = '<img src="img/close2.png" alt="close icon">'
+
+  const closeIcon = document.createElement('img')
+  closeIcon.src = closeIconImg
+  closeIcon.alt = 'close icon'
+
+  closeButton.appendChild(closeIcon)
 
   closeButton.addEventListener('click', () => {
     windowElement.remove()
@@ -36,7 +62,7 @@ export function createWeatherWindow (title) {
   input.spellcheck = false
   const button = document.createElement('button')
   const img = document.createElement('img')
-  img.src = 'img/weather/search.png'
+  img.src = searchIcon
   img.alt = 'search icon'
   button.appendChild(img)
   search.appendChild(input)
@@ -53,7 +79,7 @@ export function createWeatherWindow (title) {
   const weather = document.createElement('div')
   weather.classList.add('weather')
   const weatherIcon = document.createElement('img')
-  weatherIcon.src = 'img/weather/Rain.png'
+  weatherIcon.src = Rain
   weatherIcon.classList.add('weather_icon')
   weatherIcon.alt = 'weather icon'
   const temp = document.createElement('h1')
@@ -71,7 +97,7 @@ export function createWeatherWindow (title) {
   const col1 = document.createElement('div')
   col1.classList.add('col')
   const humidityIcon = document.createElement('img')
-  humidityIcon.src = 'img/weather/humidity.png'
+  humidityIcon.src = humidityImg
   humidityIcon.alt = 'humidity icon'
   const humidity = document.createElement('div')
   const humidityP = document.createElement('p')
@@ -87,7 +113,7 @@ export function createWeatherWindow (title) {
   const col2 = document.createElement('div')
   col2.classList.add('col')
   const windIcon = document.createElement('img')
-  windIcon.src = 'img/weather/wind.png'
+  windIcon.src = windImg
   windIcon.alt = 'wind icon'
   const wind = document.createElement('div')
   const windP = document.createElement('p')
@@ -151,7 +177,10 @@ async function getWeather (city, windowElement) {
     windowElement.querySelector('.weather_status').textContent = data.weather[0].main
     windowElement.querySelector('.humidity').textContent = data.main.humidity + '%'
     windowElement.querySelector('.wind').textContent = data.wind.speed + 'km/h'
-    windowElement.querySelector('.weather_icon').src = `img/weather/${data.weather[0].main}.png`
+
+    const weatherCondition = data.weather[0].main
+    const weatherIcon = windowElement.querySelector('.weather_icon')
+    weatherIcon.src = weatherImages[weatherCondition] || Mist
 
     windowElement.querySelector('.weather').style.display = 'block'
     windowElement.querySelector('.error').style.display = 'none'

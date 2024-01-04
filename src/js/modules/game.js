@@ -1,5 +1,7 @@
 import * as windowManager from './window.js'
 import * as memoryGame from './memoryGame.js'
+import memorylogo from '../../img/memory.png'
+import closeIconImg from '../../img/close2.png'
 
 /**
  * create a window with a form to enter the grid size
@@ -10,11 +12,16 @@ export function createGridInputWindow (title) {
   windowElement.classList.add('window')
   windowElement.id = 'input_box'
 
-  const titleBar = windowManager.makeTitleBar(title, 'img/memory.png')
+  const titleBar = windowManager.makeTitleBar(title, memorylogo)
 
   const closeButton = document.createElement('button')
   closeButton.classList.add('close_button')
-  closeButton.innerHTML = '<img src="img/close2.png" alt="close icon">'
+
+  const closeIcon = document.createElement('img')
+  closeIcon.src = closeIconImg
+  closeIcon.alt = 'close icon'
+
+  closeButton.appendChild(closeIcon)
 
   closeButton.addEventListener('click', () => {
     windowElement.remove()
