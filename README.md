@@ -35,11 +35,23 @@ npm run lint
 ```
 <br>
 
-Try the website 
+# Try the website 
+
+While I was developing the SPA, I had to branch out to test a new feature and I ended up doing the rest of the code in this new branch that is called 'memorygame'<br>
+So you need to checkout to that branch in order to use the applicaiton
+<br>
+
+change branch
+```
+git checkout memorygame
+```
+<br>
+Then launch the application by typing
+
 ```
 npm run serve
 ```
-or use 
+or type
 ```
 npm run http-server dist
 ```
