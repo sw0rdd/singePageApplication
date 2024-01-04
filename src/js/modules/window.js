@@ -14,7 +14,14 @@ export function makeDraggable (element) {
   let pos4 = 0
   const titleBar = element.querySelector('.title-bar')
 
-  titleBar.onmousedown = dragMouseDown
+  // this part bring window to front when we click on it
+  element.onmousedown = function (e) {
+    if (e.target === titleBar || titleBar.contains(e.target)) {
+      dragMouseDown(e)
+    }
+    // bring window to front
+    bringToFront(element)
+  }
 
   /**
    * start dragging the element
@@ -38,6 +45,15 @@ export function makeDraggable (element) {
     document.onmousemove = elementDrag
 
     element.classList.add('focused-window')
+  }
+
+  /**
+   * bring the element to front by increasing its z-index
+   * @param {HTMLElement} element - the element to bring to front
+   */
+  function bringToFront (element) {
+    highestZIndex++
+    element.style.zIndex = highestZIndex
   }
 
   /**
