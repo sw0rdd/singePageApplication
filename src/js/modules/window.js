@@ -144,14 +144,27 @@ export function positionWindow (windowElement) {
  * @param {string} title  - the title of the window
  * @returns {HTMLElement} - the titlebar element
  */
-export function makeTitleBar (title) {
+export function makeTitleBar (title, imgSrc) {
   const titleBar = document.createElement('div')
   titleBar.classList.add('title-bar')
+
+  const tilteIconDiv = document.createElement('div')
+  tilteIconDiv.classList.add('title-icon-div')
+
+  const titleBarImg = document.createElement('img')
+  titleBarImg.classList.add('title-bar-img')
+  titleBarImg.src = imgSrc
+  titleBarImg.alt = 'icon'
 
   const titleText = document.createElement('p')
   titleText.classList.add('title-bar-text')
   titleText.textContent = title
-  titleBar.appendChild(titleText)
-
+  
+  tilteIconDiv.appendChild(titleBarImg)
+  tilteIconDiv.appendChild(titleText)
+  
+  titleBar.appendChild(tilteIconDiv)
+  
+  titleBar.appendChild(tilteIconDiv)
   return titleBar
 }

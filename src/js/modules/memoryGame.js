@@ -23,13 +23,13 @@ export class MemoryGame {
   #setPlayerLives (size) {
     switch (size) {
       case '4x4':
-        this.playerLives = 6
+        this.playerLives = 10
         break
       case '2x2':
         this.playerLives = 2
         break
       case '2x4':
-        this.playerLives = 4
+        this.playerLives = 6
         break
       default:
         throw new Error('Invalid game size')
@@ -107,7 +107,7 @@ export class MemoryGame {
     const windowElement = document.createElement('div')
     windowElement.classList.add('window')
 
-    const titleBar = windowManager.makeTitleBar('Memory Game', windowElement)
+    const titleBar = windowManager.makeTitleBar('Memory Game', './img/memory.png')
 
     const closeButton = document.createElement('button')
     closeButton.classList.add('close_button')
@@ -183,14 +183,14 @@ export class MemoryGame {
       memoryCard.appendChild(back)
 
       memoryCard.addEventListener('click', (e) => {
-        if (!memoryCard.classList.contains('flipped')) {
+        if (!memoryCard.classList.contains('flipped') && !this.isProcessing) {
           memoryCard.classList.toggle('togglCard')
           this.#checkCards(e, memoryCard)
         }
       })
 
       memoryCard.addEventListener('keydown', (e) => {
-        if ((e.key === 'Enter' || e.key === ' ') && !memoryCard.classList.contains('matched') && !memoryCard.classList.contains('flipped')) {
+        if ((e.key === 'Enter' || e.key === ' ') && !memoryCard.classList.contains('matched') && !memoryCard.classList.contains('flipped') && !this.isProcessing) {
           memoryCard.classList.toggle('togglCard')
           this.#checkCards(e, memoryCard)
         }
@@ -312,6 +312,7 @@ export class MemoryGame {
    */
   #reset (hasWon) {
     this.#setPlayerLives(this.size)
+    this.gameElement.querySelector('.player_lives_count').textContent = `${'💘'.repeat(this.playerLives)}`
     const cardData = this.#randomize()
     const faces = this.gameElement.querySelectorAll('.face')
     const cards = this.gameElement.querySelectorAll('.memory_card')
@@ -328,10 +329,7 @@ export class MemoryGame {
       }, 1000)
     })
 
-    this.gameElement.querySelector('.player_lives_count').textContent = `${'💘'.repeat(this.playerLives)}`
-
     setTimeout(() => this.#showMessageOnGameEnd(hasWon), 500)
-
     this.#focusFirstCard()
   }
 

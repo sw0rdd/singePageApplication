@@ -134,6 +134,21 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    /* height: 10px; */
+}
+
+.title-icon-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 200px;
+    margin-left: auto;
+    box-sizing: border-box;
+    flex-grow: 1;
+}
+
+.title-bar-img {
+    width: 30px;
 }
 
 .title-bar-text {

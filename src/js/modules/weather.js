@@ -13,7 +13,7 @@ export function createWeatherWindow (title) {
   const windowElement = document.createElement('div')
   windowElement.classList.add('window')
 
-  const titleBar = windowManager.makeTitleBar(title)
+  const titleBar = windowManager.makeTitleBar(title, 'img/weather/Mist.png')
 
   const closeButton = document.createElement('button')
   closeButton.classList.add('close_button')
@@ -145,7 +145,6 @@ async function getWeather (city, windowElement) {
     windowElement.querySelector('.weather').style.display = 'none'
   } else {
     const data = await response.json()
-    console.log(data)
 
     windowElement.querySelector('.city').textContent = data.name
     windowElement.querySelector('.temp').textContent = Math.round(data.main.temp) + '°C'

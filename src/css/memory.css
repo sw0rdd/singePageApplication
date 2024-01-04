@@ -25,6 +25,7 @@ section {
 }
 
 
+
 .lives_and_button_div {
     display: flex;
     flex-direction: row;
@@ -84,10 +85,11 @@ section {
     transform-style: preserve-3d;
     transition: transform 2s cubic-bezier(0.075, 0.82, 0.165, 1);
     box-shadow: rgb(0, 0, 0, 0.2) 0px 5px 10px;
+    cursor: pointer;
 }
 
 .memory_card:focus {
-    outline: 2px solid red;
+    outline: 3px dashed rgba(9,9,121,1);
 }
 
 .face, .back {

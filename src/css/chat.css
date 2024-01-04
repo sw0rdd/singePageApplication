@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Montserrat:wght@400;500&family=Oswald&family=Space+Grotesk&display=swap');
 
 .chat_container {
-    width: 500px;
+    width: 400px;
     height: 70vh;
     display: flex;
     flex-direction: column;
@@ -64,7 +64,7 @@
     display: flex;
     flex-direction: row;
     width: fit-content;
-    max-width: 80%;
+    max-width: 100%;
     margin-bottom: 15px;
 }
 

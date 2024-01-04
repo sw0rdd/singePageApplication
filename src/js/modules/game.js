@@ -10,7 +10,7 @@ export function createGridInputWindow (title) {
   windowElement.classList.add('window')
   windowElement.id = 'input_box'
 
-  const titleBar = windowManager.makeTitleBar(title, windowElement)
+  const titleBar = windowManager.makeTitleBar(title, 'img/memory.png')
 
   const closeButton = document.createElement('button')
   closeButton.classList.add('close_button')

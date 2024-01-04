@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Montserrat:wght@400;500&family=Oswald&family=Space+Grotesk&display=swap');
 
 
 .card {
     width: 100%;
-    max-width: 470px;
+    /* max-width: 500px; */
+    max-width: fit-content;
     background: linear-gradient(135deg, #00feba, #5b548a);
     color: #fff;
     padding: 40px 35px;
@@ -47,9 +49,14 @@
 .error {
     text-align: left;
     margin-left: 10px;
-    font-size: 14px;
+    font-size: 19px;
     margin-top: 10px;
     display: none;
+}
+
+.error p {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
 }
 
 

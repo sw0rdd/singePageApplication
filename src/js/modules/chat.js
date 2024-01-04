@@ -100,7 +100,7 @@ function NameSubmissionWindow (title) {
   windowElement.classList.add('window')
   windowElement.id = 'user_info'
 
-  const titleBar = windowManager.makeTitleBar(title, windowElement)
+  const titleBar = windowManager.makeTitleBar(title, 'img/chat.png')
 
   const closeButton = document.createElement('button')
   closeButton.classList.add('close_button')
@@ -170,7 +170,7 @@ function createChatWindow (title) {
   windowElement.classList.add('window')
   windowElement.classList.add('chat_window')
 
-  const titleBar = windowManager.makeTitleBar(title)
+  const titleBar = windowManager.makeTitleBar(title, 'img/chat.png')
 
   const closeButton = document.createElement('button')
   closeButton.classList.add('close_button')
@@ -273,7 +273,6 @@ function createChatWindow (title) {
 
     event.target.closest('.chat_window').querySelector('.chat_input').value = ''
 
-    // event.target.closest('.chat_window').querySelector('.chat_body').appendChild(messageBox)
     document.querySelectorAll('.chat_body').forEach((chatBody) => {
       chatBody.appendChild(messageBox.cloneNode(true))
     })
@@ -400,6 +399,11 @@ function updateUserName (newName) {
     }
     return message
   })
+
+  document.querySelectorAll('.user_name').forEach((nameElement) => {
+    nameElement.textContent = newName
+  })
+
 
   webStorage.saveMessages(messagesArray)
 }
