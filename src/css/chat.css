@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Montserrat:wght@400;500&family=Oswald&family=Space+Grotesk&display=swap');
+
+.chat_container {
+    width: 400px;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 2px 20px rgb(0, 0, 0, 0.3);
+}
+
+.chat_header {
+    background: rgb(0,0,0);
+    background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(37,53,79,1) 97%);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px
+}
+
+.chat_header button {
+    width: 100px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    height: 40px;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    margin-bottom: 5px;
+    border-radius: 10px;
+}
+
+.change_name_button {
+    margin-right: 10px;
+}
+
+
+.chat_header input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+    width: 80%;
+    margin-bottom: 5px;
+}
+
+.chat_header p {
+    color: white;
+    font-size: 30px;
+}
+
+.chat_body {
+    flex: 1;
+    color: white;
+    background: linear-gradient(135deg, #00feba, #5b548a);
+    padding: 20px 30px;
+    overflow-y: auto;
+
+}
+
+/* contains the message itself */
+.message_box {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    max-width: 100%;
+    margin-bottom: 15px;
+}
+
+.user_message_box {
+    justify-content: flex-end;
+    margin-left: auto;
+}
+
+/* message I receive */
+.message {
+    display: block;
+    background-color: dodgerblue;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+    margin-right: 10px; 
+    word-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
+}
+
+/* message I send */
+.user_message {
+    background-color: dodgerblue;
+    margin-left: 10px; 
+}
+
+.name_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 0;
+    flex-shrink: 0; 
+    width: auto; 
+}
+
+.server_name, .user_name {
+    padding: 10px;
+    color: black;
+    background-color: white;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.server_name {
+    margin-right: 10px; 
+}
+
+
+
+.chat_footer form {
+    display: flex
+}
+
+.chat_footer form input {
+    flex: 1;
+    height: 40px;
+    border: none;
+    outline: none;
+    padding-left: 5px;
+    font-size: 16px;
+}
+
+.chat_footer form button, #submit_name {
+    width: 100px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    background-color: dodgerblue;
+    color: white;
+    cursor: pointer;
+}
+
+.chat_header button:hover {
+    background-color: #00feba;
+    transition: 0.2s ease;
+}
+.chat_footer form button:hover,
+#submit_name:hover {
+    background-color: rgb(0, 0, 255, 0.7);
+    transition: 0.2s ease;
+}
+
+
+
+.user_box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    background-color: dodgerblue;
+    border: 1px solid black;
+    border-radius: 20px;
+}
+
+.user_box form {
+    margin: 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.user_box label {
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+.user_box input[type="text"], 
+#answer_input input[type="text"]  {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+}
