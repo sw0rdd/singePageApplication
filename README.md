@@ -13,13 +13,13 @@ If you have multiple windows opened, you can click on window anywhere to bring i
 Clone the repo 
 
 ```
-git clone git@gitlab.lnu.se:1dv528/student/sy222ea/a3-spa.git
+git clone git@github.com:sw0rdd/singePageApplication.git
 ```
 <br>
 
 Navigate to the repo
 ```
-cd your_desired_path/a3-spa
+cd your_desired_path/singePageApplication
 ```
 
 To be able to run the application and the linters you will first need node package manager
