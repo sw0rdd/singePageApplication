@@ -1,4 +1,4 @@
-# A3 SPA -- [Video Presentation](https://www.youtube.com/watch?v=mZqCvYyLyjc)
+# single page application -- [Video Presentation](https://www.youtube.com/watch?v=mZqCvYyLyjc)
 
 ![SPA](./src/img/SPA.png)
 
